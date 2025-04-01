@@ -21,7 +21,7 @@ const unsigned char table[][16] = {
   // 显示我
 };
 
-  const unsigned char tempzero[][] = {};
+  const unsigned char tempzero[1][1] = {};
 
 
 void setup() {
