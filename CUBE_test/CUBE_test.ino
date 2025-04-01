@@ -21,6 +21,8 @@ const unsigned char table[][16] = {
   // 显示我
 };
 
+  const unsigned char tempzero[][] = {};
+
 
 void setup() {
   Serial.begin(9600);
