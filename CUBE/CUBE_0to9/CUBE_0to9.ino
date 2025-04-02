@@ -26,8 +26,8 @@ void setup() {
 void displayNumber(int num, uint32_t color) {
     pixels.clear();
     
-    int startX = 6;
-    int startY = 20;
+    int startX = 1;
+    int startY = 1;
     
     for (int row = 0; row < 7; row++) {
         for (int col = 0; col < 5; col++) {

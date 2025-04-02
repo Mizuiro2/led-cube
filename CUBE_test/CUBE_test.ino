@@ -1,11 +1,13 @@
 #include <Adafruit_NeoPixel.h>
-#include <DHT11.h>
+#include <dht11.h>
 
-#define NUM_LEDS 1024
+#define NUM_LEDS 256
+
 #define LED_PIN 11
+
 #define DHT11PIN 4
 
-#define DHT11
+dht11 DHT11;
 
 Adafruit_NeoPixel pixels(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
 
@@ -110,7 +112,7 @@ void loop() {
     int j = (temp - k) / 10;
     
     // color initialize as all white
-    unit32_t color = pixels.Color(255,255,255)
+    uint32_t color = pixels.Color(255,255,255);
 
     // rgb value initialize as bili pink
     int r = 255;
@@ -138,7 +140,7 @@ void loop() {
     }
     else if (20 < temp <= 32) {
       r = (temp - 20) * (255 / 12);
-      g = 255
+      g = 255;
       b = 0;
     }
     else if (32 < temp <= 44) {
@@ -153,7 +155,7 @@ void loop() {
     }
 
     displayNumber_t1(j, color);
-    displayNUmber_t2(k, color);
+    displayNumber_t2(k, color);
 
     delay(2000);
 
