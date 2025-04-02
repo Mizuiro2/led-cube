@@ -1,11 +1,11 @@
 #include <Adafruit_NeoPixel.h>
-#include <dht11.h>
+#include <DHT11.h>
 
 #define NUM_LEDS 1024
 #define LED_PIN 11
-#define DHt11Pin 4
+#define DHT11PIN 4
 
-dht11 DHT11;
+#define DHT11
 
 Adafruit_NeoPixel pixels(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
 
@@ -29,11 +29,39 @@ void setup() {
 }
 // ... 其他代码保持不变 ...
 
+// first digit of temperature reading from dht11
 void displayNumber_t1(int num, uint32_t color) {
     pixels.clear();
     
-    int startX = 6;
-    int startY = 20;
+    int startX = 1;
+    int startY = 1;
+    
+    for (int row = 0; row < 7; row++) {
+        for (int col = 0; col < 5; col++) {
+            if (numbers[num][row] & (0x10 >> col)) {
+                int pixelIndex;
+                int y = startY + row;
+                int x = startX + col;
+                
+                // 修正扫描方向：奇数行从右到左，偶数行从左到右
+                if (y % 2 == 0) {
+                    pixelIndex = y * 16 + (15 - x);
+                } else {
+                    pixelIndex = y * 16 + x;
+                }
+                
+                pixels.setPixelColor(pixelIndex, color);
+            }
+        }
+    }
+    pixels.show();
+}
+// Second digit of temperature reading
+void displayNumber_t2(int num, uint32_t color) {
+    pixels.clear();
+    
+    int startX = 7;
+    int startY = 1;
     
     for (int row = 0; row < 7; row++) {
         for (int col = 0; col < 5; col++) {
@@ -69,12 +97,64 @@ void loop() {
   Serial.print("Temperature  (C): ");
   Serial.println((float)DHT11.temperature, 2);
 
-  delay(2000);
 
     // 循环显示0-9
-    for (int i = 0; i < 10; i++) {
-        uint32_t color = pixels.Color(255, 102, 153);
-        displayNumber_t1(i, color);
-        delay(1000);  // 每个数字显示1秒
+    // for (int i = 0; i < 10; i++) {
+    //     uint32_t color = pixels.Color(255, 102, 153);
+    //     displayNumber_t1(i, color);
+    //     delay(2000);  // 每个数字显示2秒
+    // }
+
+    int temp = DHT11.temperature;
+    int k = temp % 10;
+    int j = (temp - k) / 10;
+    
+    // color initialize as all white
+    unit32_t color = pixels.Color(255,255,255)
+
+    // rgb value initialize as bili pink
+    int r = 255;
+    int g = 102;
+    int b = 153;
+
+    // color change according to temp
+    if (temp <= -10) {
+      color = pixels.Color(127,0,255);
     }
+    else if (-10 < temp <= -4) {
+      r = 127 + (temp + 10) * (-127 / 6);
+      g = 0;
+      b = 255;
+    }
+    else if (-4 < temp <= 8) {
+      r = 0;
+      g = (temp + 4) * (255 / 12);
+      b = 255;
+    }
+    else if (8 < temp <= 20) {
+      r = 0;
+      g = 255;
+      b = 255 + (temp - 8) * (-255 / 12);
+    }
+    else if (20 < temp <= 32) {
+      r = (temp - 20) * (255 / 12);
+      g = 255
+      b = 0;
+    }
+    else if (32 < temp <= 44) {
+      r = 255;
+      g = 255 + (temp - 32) * (-255 / 12);
+      b = 0;
+    }
+    else {
+      r = 255;
+      g = 0;
+      b = 0;
+    }
+
+    displayNumber_t1(j, color);
+    displayNUmber_t2(k, color);
+
+    delay(2000);
+
 }
