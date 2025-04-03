@@ -35,8 +35,8 @@ void setup() {
 void displayNumber_t1(int num, uint32_t color) {
     pixels.clear();
     
-    int startX = 1;
-    int startY = 1;
+    int startX = 0;
+    int startY = 0;
     
     for (int row = 0; row < 7; row++) {
         for (int col = 0; col < 5; col++) {
@@ -63,7 +63,7 @@ void displayNumber_t2(int num, uint32_t color) {
     pixels.clear();
     
     int startX = 7;
-    int startY = 1;
+    int startY = 0;
     
     for (int row = 0; row < 7; row++) {
         for (int col = 0; col < 5; col++) {
