@@ -33,7 +33,7 @@ void setup() {
 
 // first digit of temperature reading from dht11
 void displayNumber_t1(int num, uint32_t color) {
-    // pixels.clear();
+    pixels.clear();
     
     int startX = 0;
     int startY = 0;
