@@ -24,6 +24,16 @@ const uint8_t numbers[][7] = {
     {0x1F, 0x11, 0x11, 0x1F, 0x11, 0x11, 0x1F}, // 8
     {0x1F, 0x11, 0x11, 0x1F, 0x01, 0x01, 0x1F}  // 9
 };
+const uint8_t letter_C[7] = {
+  0x1E, // 1111
+  0x10, // 1000
+  0x10, // 1000
+  0x10, // 1000
+  0x10, // 1000
+  0x10, // 1000
+  0x1E  // 1111
+};
+
 
 void setup() {
     pixels.begin();
@@ -89,6 +99,31 @@ void displayNumber_t2(int num, uint32_t color) {
 void temp_color() {
 
 }
+
+void displayLetterC(uint32_t color) {
+  int startX = 12; // top-right (X:11-15)
+  int startY = 0;  // top row
+
+  for (int row = 0; row < 7; row++) {
+    for (int col = 0; col < 5; col++) {
+      if (letter_C[row] & (0x10 >> col)) {
+        int x = startX + col;
+        int y = startY + row;
+        int pixelIndex;
+
+        if (y % 2 == 0) {
+          pixelIndex = y * 16 + (15 - x); // Even rows: right to left
+        } else {
+          pixelIndex = y * 16 + x;        // Odd rows: left to right
+        }
+
+        pixels.setPixelColor(pixelIndex, color);
+      }
+    }
+  }
+  pixels.show();
+}
+
 
 // ... 其他代码保持不变 ...
 void loop() {
@@ -166,6 +201,7 @@ void loop() {
 
     displayNumber_t1(j, color);
     displayNumber_t2(k, color);
+    displayLetterC(color);
 
     // pixels.show();
 
