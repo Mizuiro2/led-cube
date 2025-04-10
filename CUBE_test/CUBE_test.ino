@@ -33,7 +33,7 @@ void setup() {
 
 // first digit of temperature reading from dht11
 void displayNumber_t1(int num, uint32_t color) {
-    pixels.clear();
+    // pixels.clear();
     
     int startX = 0;
     int startY = 0;
@@ -130,30 +130,27 @@ void loop() {
       g = 0;
       b = 255;
     }
-    else if (-10 < temp <= -4) {
+    else if (-10 < temp && temp <= -4) {
       r = 127 + (temp + 10) * (-127 / 6);
       g = 0;
       b = 255;
     }
-    else if (-4 < temp <= 8) {
+    else if (-4 < temp && temp <= 8) {
       r = 0;
       g = (temp + 4) * (255 / 12);
       b = 255;
     }
-    else if (8 < temp <= 20) {
+    else if (8 < temp && temp <= 20) {
       r = 0;
       g = 255;
       b = 255 + (temp - 8) * (-255 / 12);
     }
-    else if (20 < temp <= 32) {
-      // r = (temp - 20) * (255 / 12);
-      // g = 255;
-      // b = 0;
-      r = 0;
-      g = 0;
-      b = 255;
+    else if (20 < temp && temp <= 32) {
+      r = (temp - 20) * (255 / 12);
+      g = 255;
+      b = 0;
     }
-    else if (32 < temp <= 44) {
+    else if (32 < temp && temp <= 44) {
       r = 255;
       g = 255 + (temp - 32) * (-255 / 12);
       b = 0;
@@ -165,13 +162,13 @@ void loop() {
     }
     color = pixels.Color(r,g,b);
 
-    pixels.clear();
+    // pixels.clear();
 
     displayNumber_t1(j, color);
     displayNumber_t2(k, color);
 
-    pixels.show();
+    // pixels.show();
 
-    delay(2000);
+    // delay(5000);
 
 }
