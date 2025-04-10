@@ -33,6 +33,16 @@ const uint8_t letter_C[7] = {
   0x10, // 1000
   0x1E  // 1111
 };
+const uint8_t percentSymbol[7] = {
+  0b10001, // *   *
+  0b00010, //    *
+  0b00100, //   *
+  0b01000, //  *
+  0b10000, // *
+  0b10001, // *   *
+  0b00000  //
+};
+
 
 
 void setup() {
@@ -124,6 +134,29 @@ void displayLetterC(uint32_t color) {
   pixels.show();
 }
 
+void displayPercentSymbol(uint32_t color) {
+  int startX = 12; // Right side
+  int startY = 9;  // Lower rows
+
+  for (int row = 0; row < 7; row++) {
+    for (int col = 0; col < 5; col++) {
+      if (percentSymbol[row] & (0x10 >> col)) {
+        int x = startX + col;
+        int y = startY + row;
+        int pixelIndex;
+
+        if (y % 2 == 0)
+          pixelIndex = y * 16 + (15 - x);  // Even row
+        else
+          pixelIndex = y * 16 + x;         // Odd row
+
+        pixels.setPixelColor(pixelIndex, color);
+      }
+    }
+  }
+}
+
+
 
 // ... 其他代码保持不变 ...
 void loop() {
@@ -202,6 +235,11 @@ void loop() {
     displayNumber_t1(j, color);
     displayNumber_t2(k, color);
     displayLetterC(color);
+
+    int hum = DHT11.humidity;
+    uint32_t colorhumidity = pixels.Color(255,102,153);
+
+    displayPercentSymbol(colorhumidity);
 
     // pixels.show();
 
