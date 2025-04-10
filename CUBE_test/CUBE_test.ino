@@ -134,7 +134,61 @@ void displayLetterC(uint32_t color) {
   pixels.show();
 }
 
-void displayPercentSymbol(uint32_t color) {
+void displayNumber_h1(int num, uint32_t color) {
+    // pixels.clear();
+    
+    int startX = 0;
+    int startY = 9;
+    
+    for (int row = 0; row < 7; row++) {
+        for (int col = 0; col < 5; col++) {
+            if (numbers[num][row] & (0x10 >> col)) {
+                int pixelIndex;
+                int y = startY + row;
+                int x = startX + col;
+                
+                // 修正扫描方向：奇数行从右到左，偶数行从左到右
+                if (y % 2 == 0) {
+                    pixelIndex = y * 16 + (15 - x);
+                } else {
+                    pixelIndex = y * 16 + x;
+                }
+                
+                pixels.setPixelColor(pixelIndex, color);
+            }
+        }
+    }
+    pixels.show();
+}
+void displayNumber_h2(int num, uint32_t color) {
+    // pixels.clear();
+    
+    int startX = 6;
+    int startY = 9;
+    
+    for (int row = 0; row < 7; row++) {
+        for (int col = 0; col < 5; col++) {
+            if (numbers[num][row] & (0x10 >> col)) {
+                int pixelIndex;
+                int y = startY + row;
+                int x = startX + col;
+                
+                // 修正扫描方向：奇数行从右到左，偶数行从左到右
+                if (y % 2 == 0) {
+                    pixelIndex = y * 16 + (15 - x);
+                } else {
+                    pixelIndex = y * 16 + x;
+                }
+                
+                pixels.setPixelColor(pixelIndex, color);
+            }
+        }
+    }
+    pixels.show();
+}
+
+
+void displayPercentSymbol(uint32_t colorhumidity) {
   int startX = 12; // Right side
   int startY = 9;  // Lower rows
 
@@ -150,7 +204,7 @@ void displayPercentSymbol(uint32_t color) {
         else
           pixelIndex = y * 16 + x;         // Odd row
 
-        pixels.setPixelColor(pixelIndex, color);
+        pixels.setPixelColor(pixelIndex, colorhumidity);
       }
     }
   }
@@ -239,6 +293,11 @@ void loop() {
     int hum = DHT11.humidity;
     uint32_t colorhumidity = pixels.Color(255,102,153);
 
+    int tens = hum / 10;
+    int ones = hum % 10;
+
+    displayNumber_h1(tens, colorhumidity);       // X: 0–5
+    displayNumber_h2(ones, colorhumidity);
     displayPercentSymbol(colorhumidity);
 
     // pixels.show();
