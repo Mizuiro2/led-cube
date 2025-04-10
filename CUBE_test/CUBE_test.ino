@@ -62,7 +62,7 @@ void displayNumber_t1(int num, uint32_t color) {
 void displayNumber_t2(int num, uint32_t color) {
     // pixels.clear();
     
-    int startX = 7;
+    int startX = 6;
     int startY = 0;
     
     for (int row = 0; row < 7; row++) {
@@ -86,6 +86,10 @@ void displayNumber_t2(int num, uint32_t color) {
     pixels.show();
 }
 
+void temp_color() {
+
+}
+
 // ... 其他代码保持不变 ...
 void loop() {
   // dht11 loop part
@@ -106,8 +110,9 @@ void loop() {
     //     displayNumber_t1(i, color);
     //     delay(2000);  // 每个数字显示2秒
     // }
+    int temp = 88;
 
-    int temp = DHT11.temperature;
+    temp = DHT11.temperature;
     int k = temp % 10;
     int j = (temp - k) / 10;
     
@@ -121,7 +126,9 @@ void loop() {
 
     // color change according to temp
     if (temp <= -10) {
-      color = pixels.Color(127,0,255);
+      r = 127;
+      g = 0;
+      b = 255;
     }
     else if (-10 < temp <= -4) {
       r = 127 + (temp + 10) * (-127 / 6);
@@ -139,9 +146,12 @@ void loop() {
       b = 255 + (temp - 8) * (-255 / 12);
     }
     else if (20 < temp <= 32) {
-      r = (temp - 20) * (255 / 12);
-      g = 255;
-      b = 0;
+      // r = (temp - 20) * (255 / 12);
+      // g = 255;
+      // b = 0;
+      r = 0;
+      g = 0;
+      b = 255;
     }
     else if (32 < temp <= 44) {
       r = 255;
@@ -153,6 +163,7 @@ void loop() {
       g = 0;
       b = 0;
     }
+    color = pixels.Color(r,g,b);
 
     displayNumber_t1(j, color);
     displayNumber_t2(k, color);
