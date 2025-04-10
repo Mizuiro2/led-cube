@@ -165,8 +165,12 @@ void loop() {
     }
     color = pixels.Color(r,g,b);
 
+    pixels.clear();
+
     displayNumber_t1(j, color);
     displayNumber_t2(k, color);
+
+    pixels.show();
 
     delay(2000);
 
