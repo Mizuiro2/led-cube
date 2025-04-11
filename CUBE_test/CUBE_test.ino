@@ -188,9 +188,31 @@ void displayNumber_h2(int num, uint32_t color) {
 }
 
 
+// void displayPercentSymbol(uint32_t colorhumidity) {
+//   int startX = 12; // Right side
+//   int startY = 9;  // Lower rows
+
+//   for (int row = 0; row < 7; row++) {
+//     for (int col = 0; col < 5; col++) {
+//       if (percentSymbol[row] & (0x10 >> col)) {
+//         int x = startX + col;
+//         int y = startY + row;
+//         int pixelIndex;
+
+//         if (y % 2 == 0)
+//           pixelIndex = y * 16 + (15 - x);  // Even row
+//         else
+//           pixelIndex = y * 16 + x;         // Odd row
+
+//         pixels.setPixelColor(pixelIndex, colorhumidity);
+//       }
+//     }
+//   }
+// }
+
 void displayPercentSymbol(uint32_t colorhumidity) {
-  int startX = 12; // Right side
-  int startY = 9;  // Lower rows
+  int startX = 12; // top-right (X:11-15)
+  int startY = 9;  // top row
 
   for (int row = 0; row < 7; row++) {
     for (int col = 0; col < 5; col++) {
@@ -199,15 +221,17 @@ void displayPercentSymbol(uint32_t colorhumidity) {
         int y = startY + row;
         int pixelIndex;
 
-        if (y % 2 == 0)
-          pixelIndex = y * 16 + (15 - x);  // Even row
-        else
-          pixelIndex = y * 16 + x;         // Odd row
+        if (y % 2 == 0) {
+          pixelIndex = y * 16 + (15 - x); // Even rows: right to left
+        } else {
+          pixelIndex = y * 16 + x;        // Odd rows: left to right
+        }
 
         pixels.setPixelColor(pixelIndex, colorhumidity);
       }
     }
   }
+  pixels.show();
 }
 
 
@@ -292,6 +316,36 @@ void loop() {
 
     int hum = DHT11.humidity;
     uint32_t colorhumidity = pixels.Color(255,102,153);
+
+    int rh = 255;
+    int gh = 102;
+    int bh = 153;
+
+    if (hum = 0) {
+      rh = 255;
+      gh = 255;
+      bh = 0;
+    }
+    else if (hum = 100) {
+      rh = 0;
+      gh = 0;
+      bh = 255;
+    }
+    else if (hum > 0 && hum <= 33) {
+      rh = 255 - (hum / 33) * 255;
+      gh = 255;
+      bh = 0;
+    }
+    else if (hum > 33 && hum <= 66) {
+      rh = 0;
+      gh = 255;
+      bh = 0 + (hum - 33) * 255 / 33;
+    }
+    else if (hum > 66 && hum < 100) {
+      rh = 0;
+      gh = 255 - (255 * (hum - 66) / 34);
+      bh = 255;
+    }
 
     int tens = hum / 10;
     int ones = hum % 10;
