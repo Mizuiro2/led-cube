@@ -354,7 +354,7 @@ void loop() {
     int tens = hum / 10;
     int ones = hum % 10;
 
-    displayNumber_h1(tens, colorhumidity);       // X: 0–5
+    displayNumber_h1(tens, colorhumidity);
     displayNumber_h2(ones, colorhumidity);
     displayPercentSymbol(colorhumidity);
 

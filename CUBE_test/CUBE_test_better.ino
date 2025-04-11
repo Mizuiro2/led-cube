@@ -203,5 +203,59 @@ void loop() {
     Serial.print("Temperature  (C): ");
     Serial.println((float)DHT11.temperature, 2);
 
+  int temp = 69;
+  temp = DHT11.temperature;
+  int k = temp % 10;
+  int j = temp / 10;
+  uint32_t color_temperature = pixels.Color(255,255,255);
+  int rt = 255;
+  int gt = 102;
+  int bt = 153;
+  if (temp <= -10) {
+    rt = 127;
+    gt = 0;
+    bt = 255;
+  }
+  else if (-10 < temp && temp <= -4) {
+    rt = 127 + (temp + 10) * (-127 / 6);
+    gt = 0;
+    bt = 255;
+  }
+  else if (-4 < temp && temp <= 8) {
+    rt = 0;
+    gt = (temp + 4) * (255 / 12);
+    bt = 255;
+  }
+  else if (8 < temp && temp <= 20) {
+    rt = 0;
+    gt = 255;
+    bt = 255 + (temp - 8) * (-255 / 12);
+  }
+  else if (20 < temp && temp <= 32) {
+    rt = (temp - 20) * (255 / 12);
+    gt = 255;
+    bt = 0;
+  }
+  else if (32 < temp && temp <= 44) {
+    rt = 255;
+    gt = 255 + (temp - 32) * (-255 / 12);
+    bt = 0;
+  }
+  else {
+    rt = 255;
+    gt = 0;
+    bt = 0;
+  }
+  color_temperature = pixels.Color(rt,gt,bt);
+  pixels.clear();
+  displayNumber_t1(j,color_temperature);
+  displayNumber_t2(k,color_temperature);
+  displayLetterC(color_temperature);
 
+  int hum = DHT11.humidity;
+  uint32_t color_humidity = pixels.Color(255,102,153);
+  int rh = 255;
+  int gh = 102;
+  int bh = 153;
+  
 }
