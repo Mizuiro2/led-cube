@@ -257,5 +257,36 @@ void loop() {
   int rh = 255;
   int gh = 102;
   int bh = 153;
-  
+  if (hum = 0) {
+    rh = 255;
+    gh = 255;
+    bh = 0;
+  }
+  else if (hum = 100) {
+    rh = 0;
+    gh = 0;
+    bh = 255;
+  }
+  else if (hum > 0 && hum <= 33) {
+    rh = 255 - (hum / 33) * 255;
+    gh = 255;
+    bh = 0;
+  }
+  else if (hum > 33 && hum <= 66) {
+    rh = 0;
+    gh = 255;
+    bh = 0 + (hum - 33) * 255 / 33;
+  }
+  else if (hum > 66 && hum < 100) {
+    rh = 0;
+    gh = 255 - (255 * (hum - 66) / 34);
+    bh = 255;
+  }
+  int tens = hum / 10;
+  int ones = hum % 10;
+  displayNumber_h1(tens, colorhumidity);
+  displayNumber_h2(ones, colorhumidity);
+  displayPercentSymbol(colorhumidity);
+
+  delay(5000);
 }
