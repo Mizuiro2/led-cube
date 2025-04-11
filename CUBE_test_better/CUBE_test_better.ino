@@ -28,7 +28,7 @@ const uint8_t letter_C[5] = {
   0x10, // 00010000
   0x1E  // 00011110
 };
-const uint8_t percentSymbol[5] = {
+const uint8_t percentSymbol[6] = {  // 将数组大小从5改为6
   0x18,
   0x1A,
   0x04,
@@ -171,11 +171,11 @@ void displayNumber_h2(int num, uint32_t color) {
     }
     pixels.show();
 }
-void displayPercentSymbol(uint32_t color_humidity) {
+void displayPercentSymbol(uint32_t colorhumidity) {
   int startX = 12; // top-right (X:11-15)
   int startY = 9;  // top row
 
-  for (int row = 0; row < 5; row++) {
+  for (int row = 0; row < 6; row++) {  // 将循环次数从5改为6
     for (int col = 0; col < 4; col++) {
       if (percentSymbol[row] & (0x10 >> col)) {
         int x = startX + col;
@@ -188,7 +188,7 @@ void displayPercentSymbol(uint32_t color_humidity) {
           pixelIndex = y * 16 + x;        // Odd rows: left to right
         }
 
-        pixels.setPixelColor(pixelIndex, color_humidity);
+        pixels.setPixelColor(pixelIndex, colorhumidity);
       }
     }
   }

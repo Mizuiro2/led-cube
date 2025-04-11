@@ -171,7 +171,7 @@ void displayNumber_h2(int num, uint32_t color) {
     }
     pixels.show();
 }
-void displayPercentSymbol(uint32_t colorhumidity) {
+void displayPercentSymbol(uint32_t color_humidity) {
   int startX = 12; // top-right (X:11-15)
   int startY = 9;  // top row
 
@@ -188,7 +188,7 @@ void displayPercentSymbol(uint32_t colorhumidity) {
           pixelIndex = y * 16 + x;        // Odd rows: left to right
         }
 
-        pixels.setPixelColor(pixelIndex, colorhumidity);
+        pixels.setPixelColor(pixelIndex, color_humidity);
       }
     }
   }
@@ -284,9 +284,9 @@ void loop() {
   }
   int tens = hum / 10;
   int ones = hum % 10;
-  displayNumber_h1(tens, colorhumidity);
-  displayNumber_h2(ones, colorhumidity);
-  displayPercentSymbol(colorhumidity);
+  displayNumber_h1(tens, color_humidity);
+  displayNumber_h2(ones, color_humidity);
+  displayPercentSymbol(color_humidity);
 
   delay(5000);
 }
