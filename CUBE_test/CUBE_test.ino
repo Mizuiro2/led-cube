@@ -115,9 +115,7 @@ void displayNumber_t2(int num, uint32_t color) {
     pixels.show();
 }
 
-void temp_color() {
 
-}
 
 void displayLetterC(uint32_t color) {
   int startX = 12; // top-right (X:11-15)
