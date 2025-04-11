@@ -70,8 +70,6 @@ void displayNumber_t1(int num, uint32_t color) {
     pixels.show();
 }
 void displayNumber_t2(int num, uint32_t color) {
-    // pixels.clear();
-    
     int startX = 6;
     int startY = 0;
     
@@ -120,8 +118,6 @@ void displayLetterC(uint32_t color) {
 }
 
 void displayNumber_h1(int num, uint32_t color) {
-    // pixels.clear();
-    
     int startX = 0;
     int startY = 9;
     
@@ -146,8 +142,6 @@ void displayNumber_h1(int num, uint32_t color) {
     pixels.show();
 }
 void displayNumber_h2(int num, uint32_t color) {
-    // pixels.clear();
-    
     int startX = 6;
     int startY = 9;
     
