@@ -3,5 +3,4 @@
 - 字符显示 https://blog.csdn.net/ma950924/article/details/104615644
 - ![23762793](https://github.com/user-attachments/assets/0a59971c-080a-462c-92f0-249f49e43351)
 - DHT11: https://blog.csdn.net/acktomas/article/details/117073078
-- AHDL345:
-- ![AHDL345]:(C:\Users\19667\Pictures\ADXL_345.png)
+
