@@ -21,9 +21,8 @@ const uint8_t numbers[][7] = {
     {0x1F, 0x11, 0x11, 0x1F, 0x11, 0x11, 0x1F}, // 8
     {0x1F, 0x11, 0x11, 0x1F, 0x01, 0x01, 0x1F}  // 9
 };
-const uint8_t letter_C[6] = {
+const uint8_t letter_C[5] = {
   0x1E, // 1111
-  0x10, // 1000
   0x10, // 1000
   0x10, // 1000
   0x10, // 1000
@@ -100,7 +99,7 @@ void displayLetterC(uint32_t color) {
   int startX = 12; // top-right (X:11-15)
   int startY = 0;  // top row
 
-  for (int row = 0; row < 6; row++) {
+  for (int row = 0; row < 5; row++) {
     for (int col = 0; col < 5; col++) {
       if (letter_C[row] & (0x10 >> col)) {
         int x = startX + col;
@@ -204,5 +203,5 @@ void loop() {
     Serial.print("Temperature  (C): ");
     Serial.println((float)DHT11.temperature, 2);
 
-    
+
 }
