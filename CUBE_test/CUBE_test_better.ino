@@ -28,13 +28,13 @@ const uint8_t letter_C[5] = {
   0x10, // 00010000
   0x1E  // 00011110
 };
-const uint8_t percentSymbol[6] = {
-  0b1100,
-  0b1101,
-  0b0010,
-  0b0100,
-  0b1011,
-  0b0011
+const uint8_t percentSymbol[5] = {
+  0x18,
+  0x1A,
+  0x04,
+  0x08,
+  0x16,
+  0x06
 };
 
 
@@ -100,7 +100,7 @@ void displayLetterC(uint32_t color) {
   int startY = 0;  // top row
 
   for (int row = 0; row < 5; row++) {
-    for (int col = 0; col < 5; col++) {
+    for (int col = 0; col < 4; col++) {
       if (letter_C[row] & (0x10 >> col)) {
         int x = startX + col;
         int y = startY + row;
@@ -175,8 +175,8 @@ void displayPercentSymbol(uint32_t colorhumidity) {
   int startX = 12; // top-right (X:11-15)
   int startY = 9;  // top row
 
-  for (int row = 0; row < 6; row++) {
-    for (int col = 0; col < 5; col++) {
+  for (int row = 0; row < 5; row++) {
+    for (int col = 0; col < 4; col++) {
       if (percentSymbol[row] & (0x10 >> col)) {
         int x = startX + col;
         int y = startY + row;
