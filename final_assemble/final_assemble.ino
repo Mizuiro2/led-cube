@@ -31,8 +31,19 @@ const uint8_t percentSymbol[6] = {
 
 };
 
-void detectMode() {
-
+int detectMode() {
+    if () {
+        return 0;
+    }
+    else if () {
+        return 1;
+    }
+    else if () {
+        return 2;
+    }
+    else {
+        return 3;
+    }
 }
 
 void displaySwitchMode() {
