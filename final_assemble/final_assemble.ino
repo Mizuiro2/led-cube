@@ -31,12 +31,16 @@ const uint8_t percentSymbol[6] = {
 
 };
 
-void displayCurrentMode() {
+void detectMode() {
+
+}
+
+void displaySwitchMode() {
     pixels.clear();
 
     switch() {
         case 1:
-
+        
         break;
         case 2:
 
@@ -54,10 +58,52 @@ void displayCurrentMode() {
 void setup() {
     pixels.begin();
     Serial.begin(9600);
+
+    if(!accel.begin())
+    {
+        Serial.println("No ADXL345 sensor detected.");
+        while(1);
+    }
 }
 
-
+void numberPut(int startX, int startY, int num, uint32_t color) {
+    int tens = num / 10;
+    int ones = num % 10;
+    for (int row = 0; row < 7; row++) {
+        for (int col = 0; col < 5; col++) {
+            if (numbers[tens][row] & (0x10 >> col)) {
+                int pixelIndex;
+                int y = startY + row;
+                int x = startX + col;
+                if (y % 2 == 0) {
+                    pixelIndex = y * 16 + (15 - x);
+                }
+                else {
+                    pixelIndex = y * 16 + x;
+                }
+                pixels.setPixelColor(pixelIndex, color);
+            }
+        }
+    }
+    for (int row = 0; row < 7; row++) {
+        for (int col = 0; col < 5; col++) {
+            if (numbers[ones][row] & (0x10 >> col)) {
+                int pixelIndex;
+                int y = startY + row;
+                int x = startX + 6 + col;
+                if (y % 2 == 0) {
+                    pixelIndex = y * 16 + (15 - x);
+                }
+                else {
+                    pixelIndex = y * 16 + x;
+                }
+                pixels.setPixelColor(pixelIndex, color);
+            }
+        }
+    }
+}
 
 void loop() {
-    displayCurrentMode();
+    void detectMode();
+    displaySwitchtMode();
 }
