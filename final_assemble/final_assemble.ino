@@ -225,7 +225,7 @@ int humColor(int hum) {
     int r = 255;
     int g = 102;
     int b = 253;
-    if (hum = 0) {
+    if (hum == 0) {
         r = 255;
         g = 255;
         b = 0;
