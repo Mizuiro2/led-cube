@@ -1,6 +1,6 @@
 #include <Adafruit_NeoPixel.h>
 #include <dht11.h>
-#include <wire.h>
+#include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_ADXL345_U>
 
