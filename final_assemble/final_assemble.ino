@@ -10,6 +10,7 @@
 
 dht11 DHT11;
 
+
 Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified();
 
 Adafruit_NeoPixel pixels(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
@@ -63,12 +64,15 @@ int detectMode() {
 void displaySwitchMode(int mode) {
     pixels.clear();
 
+    int temp = DHT11.temperature;
+    int hum = DHT11.humidity;
+
     switch(mode) {
         case 1:
-        numberPut(0, 0, DHT11.temperature, tempColor(DHT11.temperature));
-        celsiusPut(tempColor(DHT11.temperature));
-        numberPut(0, 9, DHT11.humidity, humColor(DHT11.humidity));
-        percentPut(humColor(DHT11.humidity));
+        numberPut(0, 0, temp, tempColor(temp));
+        celsiusPut(tempColor(temp));
+        numberPut(0, 9, hum, humColor(hum));
+        percentPut(humColor(hum));
         break;
         case 2:
 
@@ -213,6 +217,7 @@ int tempColor(int temp) {
     }
     color = pixels.Color(r, g, b);
     return color;
+    // return pixels.Color(255, 0, 0); // Always red, just for test
 }
 
 int humColor(int hum) {
@@ -242,6 +247,7 @@ int humColor(int hum) {
     }
     color = pixels.Color(r, g, b);
     return color;
+    // return pixels.Color(255, 0, 0); // Always red, just for test
 }
 
 void loop() {
@@ -255,5 +261,7 @@ void loop() {
     Serial.print("Temperature  (C): ");
     Serial.println((float)DHT11.temperature, 2);
 
-    delay(2000);
+    
+
+    delay(5000);
 }
