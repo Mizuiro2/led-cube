@@ -27,15 +27,20 @@ const uint8_t numbers[][7] = {
     {0x1F, 0x11, 0x11, 0x1F, 0x01, 0x01, 0x1F}  // 9
 };
 const uint8_t letter_C[6] = {
-    0x1E,
-    0x10,
-    0x10,
-    0x10,
-    0x10,
-    0x1E
+    0x1E,   // 00011110
+    0x10,   // 00010000
+    0x10,   // 00010000
+    0x10,   // 00010000
+    0x10,   // 00010000
+    0x1E    // 00011110
 };
 const uint8_t percentSymbol[6] = {
-
+    0x18,   // 00011000
+    0x1A,   // 00011010
+    0x04,   // 00000100
+    0x08,   // 00001000
+    0x16,   // 00010110
+    0x06    // 00000110
 };
 
 int detectMode() {
@@ -43,13 +48,13 @@ int detectMode() {
     if (1) {
         mode = 1;
     }
-    else if (1) {
+    else if (0) {
         mode = 2;
     }
-    else if (1) {
+    else if (0) {
         mode = 3;
     }
-    else {
+    else if (0) {
         mode = 4;
     }
     return mode;
