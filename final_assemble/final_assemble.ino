@@ -67,6 +67,8 @@ void displaySwitchMode(int mode) {
         case 1:
         numberPut(0, 0, DHT11.temperature, tempColor(DHT11.temperature));
         celsiusPut(tempColor(DHT11.temperature));
+        numberPut(0, 9, DHT11.humidity, humColor(DHT11.humidity));
+        percentPut(humColor(DHT11.humidity));
         break;
         case 2:
 
