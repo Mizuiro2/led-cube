@@ -27,7 +27,12 @@ const uint8_t numbers[][7] = {
     {0x1F, 0x11, 0x11, 0x1F, 0x01, 0x01, 0x1F}  // 9
 };
 const uint8_t letter_C[6] = {
-    
+    0x1E,
+    0x10,
+    0x10,
+    0x10,
+    0x10;
+    0x1E
 };
 const uint8_t percentSymbol[6] = {
 
@@ -56,6 +61,7 @@ void displaySwitchMode(int mode) {
     switch(mode) {
         case 1:
         numberPut(0, 0, DHT11.temperature, tempColor(DHT11.temperature));
+        celsiusPut(tempColor(DHT11.temperature));
         break;
         case 2:
 
