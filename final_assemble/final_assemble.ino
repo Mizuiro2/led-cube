@@ -2,13 +2,15 @@
 #include <dht11.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
-#include <Adafruit_ADXL345_U>
+#include <Adafruit_ADXL345_U.h>
 
 #define NUM_LEDS    256
 #define LED_PIN     11
 #define DHT11PIN    4
 
 dht11 DHT11;
+
+Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified();
 
 Adafruit_NeoPixel pixels(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
 
@@ -33,13 +35,13 @@ const uint8_t percentSymbol[6] = {
 
 int detectMode() {
     int mode = 0;
-    if () {
+    if (1) {
         mode = 1;
     }
-    else if () {
+    else if (1) {
         mode = 2;
     }
-    else if () {
+    else if (1) {
         mode = 3;
     }
     else {
@@ -53,16 +55,14 @@ void displaySwitchMode(int mode) {
 
     switch(mode) {
         case 1:
-        
+        numberPut(0, 0, DHT11.temperature, tempColor(DHT11.temperature));
         break;
         case 2:
 
         break;
-        case 3;
+        case 3:
 
         break;
-        default:
-        
     }
 
     pixels.show();
@@ -137,6 +137,50 @@ void celsiusPut(uint32_t color) {
     }
 }
 
+int tempColor(int temp) {
+    uint32_t color = pixels.Color(255,255,255);
+    int r = 255;
+    int g = 102;
+    int b = 153;
+    if (temp <= -10) {
+        r = 127;
+        g = 0;
+        b = 255;
+    }
+    else if (-10 < temp && temp <= -4) {
+        r = 127 + (temp + 10) * (-127 / 6);
+        g = 0;
+        b = 255;
+    }
+    else if (-4 < temp && temp <= 8) {
+        r = 0;
+        g = (temp + 4) * (255 / 12);
+        b = 255;
+    }
+    else if (8 < temp && temp <= 20) {
+        r = 0;
+        g = 255;
+        b = 255 + (temp - 8) * (-255 / 12);
+    }
+    else if (20 < temp && temp <= 32) {
+        r = (temp - 20) * (255 / 12);
+        g = 255;
+        b = 0;
+    }
+    else if (32 < temp && temp <= 44) {
+        r = 255;
+        g = 255 + (temp - 32) * (-255 / 12);
+        b = 0;
+    }
+    else {
+        r = 255;
+        g = 0;
+        b = 0;
+    }
+    color = pixels.Color(r, g, b);
+    return color;
+}
+
 void loop() {
-    displaySwitchtMode(detectMode());
+    displaySwitchMode(detectMode());
 }
