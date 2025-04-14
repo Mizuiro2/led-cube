@@ -137,6 +137,27 @@ void celsiusPut(uint32_t color) {
     }
 }
 
+void percentPut(uint32_t color) {
+    int startX = 12;
+    int startY = 9;
+    for (int row = 0; row < 5; row++) {
+        for (int col = 0; col < 4; col++) {
+            if (percentSymbol[row] & (0x10 >> col)) {
+                int x = startX + col;
+                int y = startY + row;
+                int pixelIndex;
+                if(y % 2 == 0) {
+                    pixelIndex = y * 16 + (15 - x);
+                }
+                else {
+                    pixelIndex = y * 16 + x;
+                }
+                pixels.setPixelColor(pixelIndex, color);
+            }
+        }
+    }
+}
+
 int tempColor(int temp) {
     uint32_t color = pixels.Color(255,255,255);
     int r = 255;
@@ -176,6 +197,35 @@ int tempColor(int temp) {
         r = 255;
         g = 0;
         b = 0;
+    }
+    color = pixels.Color(r, g, b);
+    return color;
+}
+
+int humColor(int hum) {
+    uint32_t color = pixels.Color(255,255,255);
+    int r = 255;
+    int g = 102;
+    int b = 253;
+    if (hum = 0) {
+        r = 255;
+        g = 255;
+        b = 0;
+    }
+    else if (hum > 0 && hum <= 33) {
+        r = 255 - (hum / 33) * 255;
+        g = 255;
+        b  = 0;
+    }
+    else if (hum > 33 && hum <= 66) {
+        r = 0;
+        g = 255;
+        b = 0 + (hum - 33) * 255 / 33;
+    }
+    else {
+        r = 0;
+        g = 255 - (255 * (hum - 66) / 34);
+        b = 255;
     }
     color = pixels.Color(r, g, b);
     return color;
