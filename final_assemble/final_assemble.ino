@@ -132,7 +132,7 @@ void numberPut(int startX, int startY, int num, uint32_t color) {
 void celsiusPut(uint32_t color) {
     int startX = 12;
     int startY = 0;
-    for (int row = 0; row < 5; row++) {
+    for (int row = 0; row < 6; row++) {
         for (int col = 0; col < 4; col++) {
             if (letter_C[row] & (0x10 >> col)) {
                 int x = startX + col;
@@ -153,7 +153,7 @@ void celsiusPut(uint32_t color) {
 void percentPut(uint32_t color) {
     int startX = 12;
     int startY = 9;
-    for (int row = 0; row < 5; row++) {
+    for (int row = 0; row < 6; row++) {
         for (int col = 0; col < 4; col++) {
             if (percentSymbol[row] & (0x10 >> col)) {
                 int x = startX + col;
