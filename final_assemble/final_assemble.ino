@@ -32,18 +32,20 @@ const uint8_t percentSymbol[6] = {
 };
 
 int detectMode() {
+    int mode = 0;
     if () {
-        return 0;
+        mode = 1;
     }
     else if () {
-        return 1;
+        mode = 2;
     }
     else if () {
-        return 2;
+        mode = 3;
     }
     else {
-        return 3;
+        mode = 4;
     }
+    return mode;
 }
 
 void displaySwitchMode() {
@@ -114,7 +116,18 @@ void numberPut(int startX, int startY, int num, uint32_t color) {
     }
 }
 
+void celsiusPut(uint32_t color) {
+    int startX = 12;
+    int startY = 0;
+    for (int row = 0; row < 5; row++) {
+        for (int col = 0; col < 4; col++) {
+            if (letter_C) {
+
+            }
+        }
+    }
+}
+
 void loop() {
-    void detectMode();
-    displaySwitchtMode();
+    displaySwitchtMode(detectMode());
 }
