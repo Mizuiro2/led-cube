@@ -87,8 +87,8 @@ void setup() {
 
     if(!accel.begin())
     {
-        Serial.println("No ADXL345 sensor detected.");
-        while(1);
+        // Serial.println("No ADXL345 sensor detected.");
+        // while(1);
     }
 }
 
@@ -254,5 +254,6 @@ void loop() {
     Serial.println((float)DHT11.humidity, 2);
     Serial.print("Temperature  (C): ");
     Serial.println((float)DHT11.temperature, 2);
+    delay(2000);
 
 }
