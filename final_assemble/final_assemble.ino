@@ -31,7 +31,7 @@ const uint8_t letter_C[6] = {
     0x10,
     0x10,
     0x10,
-    0x10;
+    0x10,
     0x1E
 };
 const uint8_t percentSymbol[6] = {
