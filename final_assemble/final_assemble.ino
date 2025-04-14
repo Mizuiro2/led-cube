@@ -25,7 +25,7 @@ const uint8_t numbers[][7] = {
     {0x1F, 0x11, 0x11, 0x1F, 0x01, 0x01, 0x1F}  // 9
 };
 const uint8_t letter_C[6] = {
-
+    
 };
 const uint8_t percentSymbol[6] = {
 
@@ -48,10 +48,10 @@ int detectMode() {
     return mode;
 }
 
-void displaySwitchMode() {
+void displaySwitchMode(int mode) {
     pixels.clear();
 
-    switch() {
+    switch(mode) {
         case 1:
         
         break;
@@ -121,8 +121,17 @@ void celsiusPut(uint32_t color) {
     int startY = 0;
     for (int row = 0; row < 5; row++) {
         for (int col = 0; col < 4; col++) {
-            if (letter_C) {
-
+            if (letter_C[row] & (0x10 >> col)) {
+                int x = startX + col;
+                int y = startY + row;
+                int pixelIndex;
+                if(y % 2 == 0) {
+                    pixelIndex = y * 16 + (15 - x);
+                }
+                else {
+                    pixelIndex = y * 16 + x;
+                }
+                pixels.setPixelColor(pixelIndex, color);
             }
         }
     }
