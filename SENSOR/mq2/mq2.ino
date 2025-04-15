@@ -1,18 +1,23 @@
-/*
-MQ-X Gas Sensors
-www.openjumper.cn
-*/
-int Gas_Sensors = A0;  // connect your Gas Sensors to A0
+// Sensor pins pin D6 LED output, pin A0 analog Input
+#define ledPin 6
+#define sensorPin A0
 void setup() {
-  // initialize serial communications at 9600 bps:
-  Serial.begin(9600); 
+  Serial.begin(9600);
+  pinMode(ledPin, OUTPUT);
+  digitalWrite(ledPin, LOW);
 }
-
 void loop() {
-  // read the analog in value:
-  int sensorValue = analogRead(Gas_Sensors);                      
-  // print the value of Gas Sensors:
-  Serial.print("Gas Sensors = " );                       
-  Serial.println(sensorValue);       
-  delay(500);                     
+  Serial.print("Analog output: ");
+  Serial.println(readSensor());
+  delay(500);
+}
+//  This function returns the analog data to calling function
+int readSensor() {
+  unsigned int sensorValue = analogRead(sensorPin);  // Read the analog value from sensor
+  unsigned int outputValue = map(sensorValue, 0, 1023, 0, 255); // map the 10-bit data to 8-bit data
+  if (outputValue > 65)
+    analogWrite(ledPin, outputValue); // generate PWM signal
+  else
+    digitalWrite(ledPin, LOW);
+  return outputValue;             // Return analog moisture value
 }
