@@ -74,7 +74,7 @@ const uint8_t letters[][7] = {
 
 int detectMode() {
     int mode = 0;
-    if (1) {
+    if (0) {
         mode = 1;
     }
     else if (0) {
@@ -108,6 +108,8 @@ void displaySwitchMode(int mode) {
         case 3:
 
         break;
+        default:
+        switchError();
     }
 
     pixels.show();
@@ -278,6 +280,41 @@ int humColor(int hum) {
     // return pixels.Color(255, 0, 0); // Always red, just for test
 }
 
+void switchError() {
+    for (int row = 0; row < 7; row++) {
+        for (int col = 0; col < 5; col++) {
+            if (letters[4][row] & (0x10 >> col)) {
+                int pixelIndex;
+                int y = row;
+                int x = col;
+                if (y % 2 == 0) {
+                    pixelIndex = y * 16 + (15 - x);
+                }
+                else {
+                    pixelIndex = y * 16 + x;
+                }
+                pixels.setPixelColor(pixelIndex, pixels.Color(255, 0, 0));
+            }
+        }
+    }
+    for (int row = 0; row < 7; row++) {
+        for (int col = 0; col < 5; col++) {
+            if (letters[17][row] & (0x10 >> col)) {
+                int pixelIndex;
+                int y = row;
+                int x = col + 6;
+                if (y % 2 == 0) {
+                    pixelIndex = y * 16 + (15 - x);
+                }
+                else {
+                    pixelIndex = y * 16 + x;
+                }
+                pixels.setPixelColor(pixelIndex, pixels.Color(255, 0, 0));
+            }
+        }
+    }
+}
+
 void loop() {
     displaySwitchMode(detectMode());
     
@@ -291,5 +328,5 @@ void loop() {
 
     
 
-    delay(5000);
+    delay(3000);
 }
