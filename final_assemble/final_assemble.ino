@@ -111,10 +111,10 @@ const uint8_t gasAlert[16][16] = {
 
 int detectMode() {
     int mode = 0;
-    if (0) {
+    if (1) {
         mode = 1;
     }
-    else if (1) {
+    else if (0) {
         mode = 2;
     }
     else if (0) {
@@ -134,23 +134,23 @@ void displaySwitchMode(int mode) {
     int gas = readMQ2();
     switch(mode) {
         case 1:
-        numberPut(0, 0, temp, tempColor(temp));
-        celsiusPut(tempColor(temp));
-        numberPut(0, 9, hum, humColor(hum));
-        percentPut(humColor(hum));
+            numberPut(0, 0, temp, tempColor(temp));
+            celsiusPut(tempColor(temp));
+            numberPut(0, 9, hum, humColor(hum));
+            percentPut(humColor(hum));
         break;
 
         case 2:
-        if (gas < 65) {
-            gassafeDisplay();
-        }
-        else {
-            gasalertDisplay();
-        }
+            if (gas < 65) {
+                gassafeDisplay();
+            }
+            else {
+                gasalertDisplay();
+            }
         break;
 
         case 3:
-
+            
         break;
 
         default:
