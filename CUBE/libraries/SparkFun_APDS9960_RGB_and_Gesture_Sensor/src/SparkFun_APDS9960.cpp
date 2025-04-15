@@ -379,7 +379,7 @@ bool SparkFun_APDS9960::enableGestureSensor(bool interrupts)
     if( !wireWriteDataByte(APDS9960_PPULSE, DEFAULT_GESTURE_PPULSE) ) {
         return false;
     }
-    if( !setLEDBoost(LED_BOOST_300) ) {
+    if( !setLEDBoost(LED_BOOST_100) ) {
         return false;
     }
     if( interrupts ) {
