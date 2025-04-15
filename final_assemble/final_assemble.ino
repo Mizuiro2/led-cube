@@ -111,10 +111,10 @@ const uint8_t gasAlert[16][16] = {
 
 int detectMode() {
     int mode = 0;
-    if (1) {
+    if (0) {
         mode = 1;
     }
-    else if (0) {
+    else if (1) {
         mode = 2;
     }
     else if (0) {
@@ -131,7 +131,7 @@ void displaySwitchMode(int mode) {
 
     int temp = DHT11.temperature;
     int hum = DHT11.humidity;
-
+    int gas = readMQ2();
     switch(mode) {
         case 1:
         numberPut(0, 0, temp, tempColor(temp));
@@ -139,12 +139,20 @@ void displaySwitchMode(int mode) {
         numberPut(0, 9, hum, humColor(hum));
         percentPut(humColor(hum));
         break;
-        case 2:
 
+        case 2:
+        if (gas < 65) {
+            gassafeDisplay();
+        }
+        else {
+            gasalertDisplay();
+        }
         break;
+
         case 3:
 
         break;
+
         default:
         switchError();
     }
@@ -315,6 +323,43 @@ int humColor(int hum) {
     color = pixels.Color(r, g, b);
     return color;
     // return pixels.Color(255, 0, 0); // Always red, just for test
+}
+
+void gassafeDisplay() {
+    for (int row = 0; row < 16; row++) {
+        for (int col = 0; col < 16; col++) {
+            switch (gasSafe[row][col]) {
+            case 1: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(0, 128, 255)); break;
+            case 2: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(0, 255, 255)); break;
+            case 3: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(0, 204, 0)); break;
+            case 4: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(51, 255, 51)); break;
+            default: break;
+            }
+        }
+    }
+}
+
+void gasalertDisplay() {
+    for (int row = 0; row < 16; row++) {
+        for (int col = 0; col < 16; col++) {
+            switch (gasAlert[row][col]) {
+            case 1: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(0, 128, 255)); break;
+            case 2: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(0, 255, 255)); break;
+            case 3: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(0, 204, 0)); break;
+            case 4: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(51, 255, 51)); break;
+            case 5: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(255, 0, 0)); break;
+            default: break;
+            }
+        }
+    } 
+}
+
+int xyToIndex(int x, int y) {
+  if (y % 2 == 1) {
+    return y * 16 + x;       // even row: left to right
+  } else {
+    return y * 16 + (15 - x); // odd row: right to left
+  }
 }
 
 void switchError() {
