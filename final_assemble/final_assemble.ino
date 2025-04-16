@@ -407,8 +407,8 @@ void loop() {
     displaySwitchMode(detectMode());
     
     /* below is code for testing and monitoring*/
-    Serial.println();
-    int chk = DHT11.read(DHT11PIN);
+    //  Serial.println();
+    //  int chk = DHT11.read(DHT11PIN);
     //  Serial.print("Humidity (%): ");
     //  Serial.println((float)DHT11.humidity, 2);
     //  Serial.print("Temperature  (C): ");
