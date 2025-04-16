@@ -5,7 +5,7 @@
 #include <Adafruit_ADXL345_U.h>
 
 #define NUM_LEDS    256
-#define LED_PIN     11
+#define LED_PIN1     11
 #define DHT11PIN    4
 #define sensorPin A0
 
@@ -14,7 +14,7 @@ dht11 DHT11;
 
 Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified();
 
-Adafruit_NeoPixel pixels(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel pixels(NUM_LEDS, LED_PIN1, NEO_GRB + NEO_KHZ800);
 
 const uint8_t numbers[][7] = {
     {0x1F, 0x11, 0x11, 0x11, 0x11, 0x11, 0x1F}, // 0
