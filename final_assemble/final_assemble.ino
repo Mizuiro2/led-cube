@@ -409,14 +409,13 @@ void loop() {
     /* below is code for testing and monitoring*/
     Serial.println();
     int chk = DHT11.read(DHT11PIN);
-    // Serial.print("Humidity (%): ");
-    // Serial.println((float)DHT11.humidity, 2);
-    // Serial.print("Temperature  (C): ");
-    // Serial.println((float)DHT11.temperature, 2);
-    // not needed for actual project
-
-    Serial.print("Analog output: ");
-    Serial.println(readMQ2());
+    //  Serial.print("Humidity (%): ");
+    //  Serial.println((float)DHT11.humidity, 2);
+    //  Serial.print("Temperature  (C): ");
+    //  Serial.println((float)DHT11.temperature, 2);
+    //  Serial.print("Analog output: ");
+    //  Serial.println(readMQ2());
+    //  not needed for actual project
 
     delay(3000);
 }
