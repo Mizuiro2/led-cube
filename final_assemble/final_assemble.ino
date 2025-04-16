@@ -5,9 +5,10 @@
 #include <Adafruit_ADXL345_U.h>
 
 #define NUM_LEDS    256
-#define LED_PIN1     11
+#define LED_PIN1    11
+#define LED_PIN2    12
 #define DHT11PIN    4
-#define sensorPin A0
+#define sensorPin   A0
 
 dht11 DHT11;
 
