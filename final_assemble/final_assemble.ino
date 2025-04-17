@@ -16,6 +16,7 @@ dht11 DHT11;
 Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified();
 
 Adafruit_NeoPixel panel1(NUM_LEDS, LED_PIN1, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel panel2(NUM_LEDS, LED_PIN2, NEO_GRB + NEO_KHZ800);
 
 const uint8_t numbers[][7] = {
     {0x1F, 0x11, 0x11, 0x11, 0x11, 0x11, 0x1F}, // 0
