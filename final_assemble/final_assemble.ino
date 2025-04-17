@@ -15,7 +15,7 @@ dht11 DHT11;
 
 Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified();
 
-Adafruit_NeoPixel pixels(NUM_LEDS, LED_PIN1, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel panel1(NUM_LEDS, LED_PIN1, NEO_GRB + NEO_KHZ800);
 
 const uint8_t numbers[][7] = {
     {0x1F, 0x11, 0x11, 0x11, 0x11, 0x11, 0x1F}, // 0
@@ -128,7 +128,7 @@ int detectMode() {
 }
 
 void displaySwitchMode(int mode) {
-    pixels.clear();
+    panel1.clear();
 
     int temp = DHT11.temperature;
     int hum = DHT11.humidity;
@@ -158,11 +158,11 @@ void displaySwitchMode(int mode) {
         switchError();
     }
 
-    pixels.show();
+    panel1.show();
 }
 
 void setup() {
-    pixels.begin();
+    panel1.begin();
     Serial.begin(9600);
 
     if(!accel.begin())
@@ -187,7 +187,7 @@ void numberPut(int startX, int startY, int num, uint32_t color) {
                 else {
                     pixelIndex = y * 16 + x;
                 }
-                pixels.setPixelColor(pixelIndex, color);
+                panel1.setPixelColor(pixelIndex, color);
             }
         }
     }
@@ -203,7 +203,7 @@ void numberPut(int startX, int startY, int num, uint32_t color) {
                 else {
                     pixelIndex = y * 16 + x;
                 }
-                pixels.setPixelColor(pixelIndex, color);
+                panel1.setPixelColor(pixelIndex, color);
             }
         }
     }
@@ -224,7 +224,7 @@ void celsiusPut(uint32_t color) {
                 else {
                     pixelIndex = y * 16 + x;
                 }
-                pixels.setPixelColor(pixelIndex, color);
+                panel1.setPixelColor(pixelIndex, color);
             }
         }
     }
@@ -245,14 +245,14 @@ void percentPut(uint32_t color) {
                 else {
                     pixelIndex = y * 16 + x;
                 }
-                pixels.setPixelColor(pixelIndex, color);
+                panel1.setPixelColor(pixelIndex, color);
             }
         }
     }
 }
 
 int tempColor(int temp) {
-    uint32_t color = pixels.Color(255,255,255);
+    uint32_t color = panel1.Color(255,255,255);
     int r = 255;
     int g = 102;
     int b = 153;
@@ -291,13 +291,13 @@ int tempColor(int temp) {
         g = 0;
         b = 0;
     }
-    color = pixels.Color(r, g, b);
+    color = panel1.Color(r, g, b);
     return color;
-    // return pixels.Color(255, 0, 0); // Always red, just for test
+    // return panel1.Color(255, 0, 0); // Always red, just for test
 }
 
 int humColor(int hum) {
-    uint32_t color = pixels.Color(255,255,255);
+    uint32_t color = panel1.Color(255,255,255);
     int r = 255;
     int g = 102;
     int b = 253;
@@ -321,19 +321,19 @@ int humColor(int hum) {
         g = 255 - (255 * (hum - 66) / 34);
         b = 255;
     }
-    color = pixels.Color(r, g, b);
+    color = panel1.Color(r, g, b);
     return color;
-    // return pixels.Color(255, 0, 0); // Always red, just for test
+    // return panel1.Color(255, 0, 0); // Always red, just for test
 }
 
 void gassafeDisplay() {
     for (int row = 0; row < 16; row++) {
         for (int col = 0; col < 16; col++) {
             switch (gasSafe[row][col]) {
-            case 1: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(0, 128, 255)); break;
-            case 2: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(0, 255, 255)); break;
-            case 3: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(0, 204, 0)); break;
-            case 4: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(51, 255, 51)); break;
+            case 1: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(0, 128, 255)); break;
+            case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(0, 255, 255)); break;
+            case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(0, 204, 0)); break;
+            case 4: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(51, 255, 51)); break;
             default: break;
             }
         }
@@ -344,11 +344,11 @@ void gasalertDisplay() {
     for (int row = 0; row < 16; row++) {
         for (int col = 0; col < 16; col++) {
             switch (gasAlert[row][col]) {
-            case 1: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(0, 128, 255)); break;
-            case 2: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(0, 255, 255)); break;
-            case 3: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(0, 204, 0)); break;
-            case 4: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(51, 255, 51)); break;
-            case 5: pixels.setPixelColor(xyToIndex(col, row), pixels.Color(255, 0, 0)); break;
+            case 1: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(0, 128, 255)); break;
+            case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(0, 255, 255)); break;
+            case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(0, 204, 0)); break;
+            case 4: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(51, 255, 51)); break;
+            case 5: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 0, 0)); break;
             default: break;
             }
         }
@@ -376,7 +376,7 @@ void switchError() {
                 else {
                     pixelIndex = y * 16 + x;
                 }
-                pixels.setPixelColor(pixelIndex, pixels.Color(255, 0, 0));
+                panel1.setPixelColor(pixelIndex, panel1.Color(255, 0, 0));
             }
         }
     }
@@ -392,7 +392,7 @@ void switchError() {
                 else {
                     pixelIndex = y * 16 + x;
                 }
-                pixels.setPixelColor(pixelIndex, pixels.Color(255, 0, 0));
+                panel1.setPixelColor(pixelIndex, panel1.Color(255, 0, 0));
             }
         }
     }
