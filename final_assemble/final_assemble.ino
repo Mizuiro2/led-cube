@@ -110,6 +110,24 @@ const uint8_t gasAlert[16][16] = {
     {0, 0, 0, 3, 4, 0, 0, 4, 3, 0, 0, 0, 4, 0, 0, 0},   // line 15
     {0, 3, 3, 0, 4, 0, 0, 4, 3, 0, 0, 0, 4, 4, 4, 4},   // line 16
 };
+const uint8_t grass[16][16] = {
+    {01, 02, 03, 04, 01, 02, 01, 03, 03, 05, 01, 05, 06, 07, 05, 03},   // line 1
+    {01, 04, 01, 02, 06, 08, 01, 07, 06, 03, 01, 09, 01, 04, 01, 10},   // line 2
+    {03, 08, 06, 11, 01, 08, 02, 08, 01, 05, 03, 12, 08, 13, 03, 08},   // line 3
+    {08, 21, 08, 08, 17, 08, 08, 08, 18, 08, 19, 08, 15, 08, 08, 15},   // line 4
+    {14, 15, 14, 20, 08, 14, 15, 15, 08, 08, 08, 16, 15, 14, 08, 15},   // line 5
+    {15, 08, 14, 14, 15, 14, 08, 08, 08, 15, 15, 08, 15. 15, 15, 20},   // line 6
+    {20, 15, 15, 15, 16, 15, 15, 20, 20, 15, 20, 20, 15, 14, 15, 14},   // line 7
+    {15, 15, 20, 20, 14, 14, 15, 15, 14, 08, 14, 14, 15, 15, 14, 14},   // line 8
+    {14, 15, 15, 14, 15, 14, 15, 08, 15, 14, 14, 15, 15, 15, 08, 15},   // line 9
+    {15, 14, 08, 15, 15, 08, 08, 15, 15, 15, 15, 15, 20, 20, 15, 14},   // line 10
+    {15, 14, 15, 20, 20, 15, 20, 14, 08, 20, 20, 08, 14, 14, 21, 15},   // line 11
+    {14, 15, 15, 14, 14, 20, 15, 14, 16, 14, 14, 15, 08, 14, 15, 08},   // line 12
+    {15, 08, 14, 15, 14, 14, 20, 15, 15, 15, 15, 15, 15, 15, 20, 20},   // line 13
+    {15, 14, 15, 15, 22, 15, 14, 14, 15, 08, 20, 08, 15, 20, 14, 14},   // line 14
+    {14, 15, 08, 20, 15, 08, 15, 08, 20, 20, 15, 14, 15, 15, 14, 14},   // line 15
+    {14, 15, 20, 14, 14, 15, 21, 15, 14, 14, 15, 15, 14, 14, 15, 08},   // line 16
+}
 
 int detectMode() {
     int mode = 0;
@@ -350,6 +368,38 @@ void gasalertDisplay() {
             case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(0, 204, 0)); break;
             case 4: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(51, 255, 51)); break;
             case 5: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 0, 0)); break;
+            default: break;
+            }
+        }
+    } 
+}
+
+void grass() {
+    for (int row = 0; row < 16; row++) {
+        for (int col = 0; col < 16; col++) {
+            switch (grass[row][col]) {
+            case 1: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(67, 102, 59)); break;
+            case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(57, 87, 49)); break;
+            case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(60, 91, 52)); break;
+            case 4: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(56, 85, 49)); break;
+            case 5: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(63, 96, 55)); break;
+            case 6: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(71, 108, 62)); break;
+            case 7: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(51, 78, 45)); break;
+            case 8: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(73, 50, 34)); break;
+            case 9: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(58, 89, 51)); break;
+            case 10: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(56, 84, 48)); break;
+            case 11: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(52, 80, 45)); break;
+            case 12: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(69, 105, 60)); break;
+            case 13: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(47, 72, 41)); break;
+            case 14: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(123, 88, 61)); break;
+            case 15: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(99, 69, 48)); break;
+            case 16: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(88, 88, 89)); break;
+            case 17: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(58, 87, 50)); break;
+            case 18: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(51, 77, 44)); break;
+            case 19: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(56, 86, 49)); break;
+            case 20: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(151, 109, 76)); break;
+            case 21: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(111, 110, 111)); break;
+            case 22: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(95, 72, 56)); break;
             default: break;
             }
         }
