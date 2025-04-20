@@ -200,6 +200,7 @@ void displaySwitchMode(int mode) {
 
 void setup() {
     panel1.begin();
+    panel2.begin();
     Serial.begin(9600);
 
     if(!accel.begin())
@@ -495,7 +496,7 @@ void loop() {
     
     /* below is code for testing and monitoring*/
     //  Serial.println();
-    //  int chk = DHT11.read(DHT11PIN);
+    int chk = DHT11.read(DHT11PIN);
     //  Serial.print("Humidity (%): ");
     //  Serial.println((float)DHT11.humidity, 2);
     //  Serial.print("Temperature  (C): ");
