@@ -127,7 +127,7 @@ const uint8_t grass[16][16] = {
     {15, 14, 15, 15, 22, 15, 14, 14, 15, 08, 20, 08, 15, 20, 14, 14},   // line 14
     {14, 15, 08, 20, 15, 08, 15, 08, 20, 20, 15, 14, 15, 15, 14, 14},   // line 15
     {14, 15, 20, 14, 14, 15, 21, 15, 14, 14, 15, 15, 14, 14, 15, 08}    // line 16
-}
+};
 const uint8_t glowstone[16][16] = {
     {1, 2, 3, 4, 4, 2, 1, 2, 2, 4, 3, 5, 6, 2, 3, 7},
     {6, 1, 2, 4, 8, 8, 3, 2, 4, 7, 2, 6, 6, 1, 2, 4},
@@ -145,7 +145,10 @@ const uint8_t glowstone[16][16] = {
     {7, 1, 5, 6, 6, 4, 7, 1, 2, 3, 8, 1, 5, 6, 2, 4},
     {7, 2, 6, 1, 2, 3, 4, 8, 4, 4, 7, 3, 2, 3, 4, 8},
     {7, 4, 1, 2, 3, 8, 6, 1, 3, 8, 8, 4, 4, 4, 8, 7}
-}
+};
+const uint8_t flame1[16][16] = {
+{1, 1, 1, 2, 3, 4},
+};
 
 int detectMode() {
     int mode = 0;
@@ -436,6 +439,19 @@ void glowstone() {
                 case 6: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 240, 217)); break;
                 case 7: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(136, 104, 57)); break;
                 case 8: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(116, 78, 39)); break;
+                default: break;
+            }
+        }
+    }
+}
+void flame1() {
+    for (int row = 0; row < 16; row++) {
+        for (int col = 0; col < 16; col++) {
+            switch (flame1[row][col]) {
+                case 1: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 255, 255)); break; 
+                case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(228, 129, 13)); break;
+                case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(197, 85, 0)); break;
+                case 4: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(243, 185, 41)); break;
                 default: break;
             }
         }
