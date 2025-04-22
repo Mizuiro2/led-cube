@@ -167,6 +167,17 @@ const uint8_t flame1[16][16] = {
 // still wip flame frame 2
 const uint8_t flame2[16][16] = {
     {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {00, 30, 95, 11, 01, 36, 41, 91, 81, 41, 00, 03, 66, 79, 00, 00},
+    {00, 30, 28, 89, 01, 01, 73, 10, 94, 15, 28, 41, 03, 36, 14, 00},
+    {01, 07, 77, 10, 47, 86, 54, 91, 38, 92, 93, 04, 41, 03, 68, 00},
+    {57, 56, 26, 69, 80, 02, 41, 56, 90, 20, 81, 03, 36, 37, 11, 00},
+    {87, 18, 04, 41, 74, 47, 20, 56, 15, 12, 32, 88, 89, 57, 68, 00},
     {14, 18, 05, 18, 86, 29, 05, 56, 41, 59, 05, 29, 33, 05, 51, 00},
     {28, 39, 18, 02, 70, 81, 53, 05, 82, 56, 83, 82, 84, 13, 85, 07},
     {14, 73, 73, 79, 41, 05, 05, 07, 45, 79, 68, 80, 37, 41, 07, 72},
@@ -565,7 +576,17 @@ void flame() {
                 case 84: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(237, 204, 83)); break;
                 case 85: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(250, 249, 220)); break;
                 case 86: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(208, 120, 1)); break;
-                case 87: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(213)); break;
+                case 87: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(183, 71, 0)); break;
+                case 88: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(202, 110, 5)); break;
+                case 89: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(203, 111, 7)); break;
+                case 90: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(228, 182, 48)); break;
+                case 91: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(225, 161, 18)); break;
+                case 92: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(247, 223, 128)); break;
+                case 93: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(242, 208, 88)); break;
+                case 94: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(232, 179, 37)); break;
+                case 95: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(206, 112, 0)); break;
+                // line down below is for finding the case number
+                // case 96: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(194)); break;
                 default: break;
             }
         }
