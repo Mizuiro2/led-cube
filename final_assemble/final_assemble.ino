@@ -110,24 +110,24 @@ const uint8_t gasAlert[16][16] = {
     {0, 0, 0, 3, 4, 0, 0, 4, 3, 0, 0, 0, 4, 0, 0, 0},   // line 15
     {0, 3, 3, 0, 4, 0, 0, 4, 3, 0, 0, 0, 4, 4, 4, 4},   // line 16
 };
-const uint8_t grass[16][16] = {
-    {01, 02, 03, 04, 01, 02, 01, 03, 03, 05, 01, 05, 06, 07, 05, 03},   // line 1
-    {01, 04, 01, 02, 06, 08, 01, 07, 06, 03, 01, 09, 01, 04, 01, 10},   // line 2
-    {03, 08, 06, 11, 01, 08, 02, 08, 01, 05, 03, 12, 08, 13, 03, 08},   // line 3
-    {08, 21, 08, 08, 17, 08, 08, 08, 18, 08, 19, 08, 15, 08, 08, 15},   // line 4
-    {14, 15, 14, 20, 08, 14, 15, 15, 08, 08, 08, 16, 15, 14, 08, 15},   // line 5
-    {15, 08, 14, 14, 15, 14, 08, 08, 08, 15, 15, 08, 15. 15, 15, 20},   // line 6
-    {20, 15, 15, 15, 16, 15, 15, 20, 20, 15, 20, 20, 15, 14, 15, 14},   // line 7
-    {15, 15, 20, 20, 14, 14, 15, 15, 14, 08, 14, 14, 15, 15, 14, 14},   // line 8
-    {14, 15, 15, 14, 15, 14, 15, 08, 15, 14, 14, 15, 15, 15, 08, 15},   // line 9
-    {15, 14, 08, 15, 15, 08, 08, 15, 15, 15, 15, 15, 20, 20, 15, 14},   // line 10
-    {15, 14, 15, 20, 20, 15, 20, 14, 08, 20, 20, 08, 14, 14, 21, 15},   // line 11
-    {14, 15, 15, 14, 14, 20, 15, 14, 16, 14, 14, 15, 08, 14, 15, 08},   // line 12
-    {15, 08, 14, 15, 14, 14, 20, 15, 15, 15, 15, 15, 15, 15, 20, 20},   // line 13
-    {15, 14, 15, 15, 22, 15, 14, 14, 15, 08, 20, 08, 15, 20, 14, 14},   // line 14
-    {14, 15, 08, 20, 15, 08, 15, 08, 20, 20, 15, 14, 15, 15, 14, 14},   // line 15
-    {14, 15, 20, 14, 14, 15, 21, 15, 14, 14, 15, 15, 14, 14, 15, 08}    // line 16
-};
+// const uint8_t grass[16][16] = {
+//     {01, 02, 03, 04, 01, 02, 01, 03, 03, 05, 01, 05, 06, 07, 05, 03},   // line 1
+//     {01, 04, 01, 02, 06, 08, 01, 07, 06, 03, 01, 09, 01, 04, 01, 10},   // line 2
+//     {03, 08, 06, 11, 01, 08, 02, 08, 01, 05, 03, 12, 08, 13, 03, 08},   // line 3
+//     {08, 21, 08, 08, 17, 08, 08, 08, 18, 08, 19, 08, 15, 08, 08, 15},   // line 4
+//     {14, 15, 14, 20, 08, 14, 15, 15, 08, 08, 08, 16, 15, 14, 08, 15},   // line 5
+//     {15, 08, 14, 14, 15, 14, 08, 08, 08, 15, 15, 08, 15. 15, 15, 20},   // line 6
+//     {20, 15, 15, 15, 16, 15, 15, 20, 20, 15, 20, 20, 15, 14, 15, 14},   // line 7
+//     {15, 15, 20, 20, 14, 14, 15, 15, 14, 08, 14, 14, 15, 15, 14, 14},   // line 8
+//     {14, 15, 15, 14, 15, 14, 15, 08, 15, 14, 14, 15, 15, 15, 08, 15},   // line 9
+//     {15, 14, 08, 15, 15, 08, 08, 15, 15, 15, 15, 15, 20, 20, 15, 14},   // line 10
+//     {15, 14, 15, 20, 20, 15, 20, 14, 08, 20, 20, 08, 14, 14, 21, 15},   // line 11
+//     {14, 15, 15, 14, 14, 20, 15, 14, 16, 14, 14, 15, 08, 14, 15, 08},   // line 12
+//     {15, 08, 14, 15, 14, 14, 20, 15, 15, 15, 15, 15, 15, 15, 20, 20},   // line 13
+//     {15, 14, 15, 15, 22, 15, 14, 14, 15, 08, 20, 08, 15, 20, 14, 14},   // line 14
+//     {14, 15, 08, 20, 15, 08, 15, 08, 20, 20, 15, 14, 15, 15, 14, 14},   // line 15
+//     {14, 15, 20, 14, 14, 15, 21, 15, 14, 14, 15, 15, 14, 14, 15, 08}    // line 16
+// };
 const uint8_t glowstone[16][16] = {
     {1, 2, 3, 4, 4, 2, 1, 2, 2, 4, 3, 5, 6, 2, 3, 7},
     {6, 1, 2, 4, 10, 10, 3, 2, 4, 7, 2, 6, 6, 1, 2, 4},
@@ -146,24 +146,24 @@ const uint8_t glowstone[16][16] = {
     {7, 2, 6, 1, 2, 3, 4, 10, 4, 4, 7, 3, 2, 3, 4, 10},
     {7, 4, 1, 2, 3, 10, 6, 1, 3, 10, 10, 4, 4, 4, 10, 7}
 };
-const uint8_t flame1[16][16] = {
-    {00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00},
-    {00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00},
-    {00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00},
-    {00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00},
-    {00, 00, 00, 00, 00, 00, 00, 55, 55, 00, 00, 00, 55, 75, 00, 00},
-    {00, 00, 00, 00, 00, 00, 00, 75, 72, 14, 14, 68, 67, 55, 00, 00},
-    {00, 71, 72, 00, 00, 14, 51, 02, 73, 37, 37, 36, 74, 72, 00, 00},
-    {00, 67, 68, 68, 11, 41, 18, 15, 69, 52, 70, 47, 37, 14, 00, 00},
-    {00, 03, 52, 63, 25, 47, 54, 64, 65, 54, 41, 66, 07, 36, 00, 00},
-    {55, 56, 18, 02, 36, 57, 58, 18, 59, 60, 61, 62, 28, 02, 01, 00},
-    {49, 50, 05, 18, 51, 52, 07, 16, 05, 05, 53, 18, 54, 04, 37, 00},
-    {35, 38, 39, 40, 04, 41, 04, 42, 43, 44, 45, 41, 46, 32, 47, 48},
-    {08, 15, 31, 04, 32, 02, 29, 22, 33, 04, 34, 35, 03, 36, 37, 00},
-    {25, 26, 05, 15, 17, 05, 05, 27, 28, 29, 05, 05, 05, 05, 30, 00},
-    {15, 05, 16, 17, 02, 18, 05, 05, 19, 20, 21, 22, 23, 24, 05, 05},
-    {01, 02, 03, 01, 04, 05, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14}
-};
+// const uint8_t flame1[16][16] = {
+//     {00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00},
+//     {00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00},
+//     {00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00},
+//     {00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00},
+//     {00, 00, 00, 00, 00, 00, 00, 55, 55, 00, 00, 00, 55, 75, 00, 00},
+//     {00, 00, 00, 00, 00, 00, 00, 75, 72, 14, 14, 68, 67, 55, 00, 00},
+//     {00, 71, 72, 00, 00, 14, 51, 02, 73, 37, 37, 36, 74, 72, 00, 00},
+//     {00, 67, 68, 68, 11, 41, 18, 15, 69, 52, 70, 47, 37, 14, 00, 00},
+//     {00, 03, 52, 63, 25, 47, 54, 64, 65, 54, 41, 66, 07, 36, 00, 00},
+//     {55, 56, 18, 02, 36, 57, 58, 18, 59, 60, 61, 62, 28, 02, 01, 00},
+//     {49, 50, 05, 18, 51, 52, 07, 16, 05, 05, 53, 18, 54, 04, 37, 00},
+//     {35, 38, 39, 40, 04, 41, 04, 42, 43, 44, 45, 41, 46, 32, 47, 48},
+//     {08, 15, 31, 04, 32, 02, 29, 22, 33, 04, 34, 35, 03, 36, 37, 00},
+//     {25, 26, 05, 15, 17, 05, 05, 27, 28, 29, 05, 05, 05, 05, 30, 00},
+//     {15, 05, 16, 17, 02, 18, 05, 05, 19, 20, 21, 22, 23, 24, 05, 05},
+//     {01, 02, 03, 01, 04, 05, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14}
+// };
 // still wip flame frame 2
 // const uint8_t flame2[16][16] = {
 //     {},
@@ -192,10 +192,10 @@ int detectMode() {
     else if (0) {
         mode = 2;
     }
-    else if (1) {
+    else if (0) {
         mode = 3;
     }
-    else if (0) {
+    else if (1) {
         mode = 4;
     }
     return mode;
@@ -225,13 +225,13 @@ void displaySwitchMode(int mode) {
         break;
 
         case 3:
-            grass();
+            // grass();
         break;
 
         case 4:
-            glowstone();
+            displayGlowstone();
         break;
-            flame();
+            // flame();
         case 5:
 
         break;
@@ -438,38 +438,38 @@ void gasalertDisplay() {
     } 
 }
 
-void grass() {
-    for (int row = 0; row < 16; row++) {
-        for (int col = 0; col < 16; col++) {
-            switch (grass[row][col]) {
-            case 01: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(67, 102, 59)); break;
-            case 02: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(57, 87, 49)); break;
-            case 03: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(60, 91, 52)); break;
-            case 04: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(56, 85, 49)); break;
-            case 05: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(63, 96, 55)); break;
-            case 06: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(71, 108, 62)); break;
-            case 07: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(51, 78, 45)); break;
-            case 08: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(73, 50, 34)); break;
-            case 09: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(58, 89, 51)); break;
-            case 10: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(56, 84, 48)); break;
-            case 11: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(52, 80, 45)); break;
-            case 12: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(69, 105, 60)); break;
-            case 13: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(47, 72, 41)); break;
-            case 14: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(123, 88, 61)); break;
-            case 15: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(99, 69, 48)); break;
-            case 16: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(88, 88, 89)); break;
-            case 17: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(58, 87, 50)); break;
-            case 18: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(51, 77, 44)); break;
-            case 19: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(56, 86, 49)); break;
-            case 20: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(151, 109, 76)); break;
-            case 21: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(111, 110, 111)); break;
-            case 22: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(95, 72, 56)); break;
-            default: break;
-            }
-        }
-    } 
-}
-void glowstone() {
+// void grass() {
+//     for (int row = 0; row < 16; row++) {
+//         for (int col = 0; col < 16; col++) {
+//             switch (grass[row][col]) {
+//             case 01: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(67, 102, 59)); break;
+//             case 02: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(57, 87, 49)); break;
+//             case 03: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(60, 91, 52)); break;
+//             case 04: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(56, 85, 49)); break;
+//             case 05: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(63, 96, 55)); break;
+//             case 06: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(71, 108, 62)); break;
+//             case 07: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(51, 78, 45)); break;
+//             case 08: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(73, 50, 34)); break;
+//             case 09: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(58, 89, 51)); break;
+//             case 10: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(56, 84, 48)); break;
+//             case 11: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(52, 80, 45)); break;
+//             case 12: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(69, 105, 60)); break;
+//             case 13: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(47, 72, 41)); break;
+//             case 14: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(123, 88, 61)); break;
+//             case 15: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(99, 69, 48)); break;
+//             case 16: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(88, 88, 89)); break;
+//             case 17: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(58, 87, 50)); break;
+//             case 18: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(51, 77, 44)); break;
+//             case 19: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(56, 86, 49)); break;
+//             case 20: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(151, 109, 76)); break;
+//             case 21: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(111, 110, 111)); break;
+//             case 22: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(95, 72, 56)); break;
+//             default: break;
+//             }
+//         }
+//     } 
+// }
+void displayGlowstone() {
     for (int row = 0; row < 16; row++) {
         for (int col = 0; col < 16; col++) {
             switch (glowstone[row][col]) {
