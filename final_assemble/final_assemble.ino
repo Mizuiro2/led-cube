@@ -130,21 +130,21 @@ const uint8_t grass[16][16] = {
 };
 const uint8_t glowstone[16][16] = {
     {1, 2, 3, 4, 4, 2, 1, 2, 2, 4, 3, 5, 6, 2, 3, 7},
-    {6, 1, 2, 4, 8, 8, 3, 2, 4, 7, 2, 6, 6, 1, 2, 4},
-    {3, 2, 4, 7, 3, 3, 4, 8, 8, 7, 8, 4, 1, 2, 4, 7},
-    {7, 4, 7, 2, 1, 2, 3, 4, 8, 5, 1, 8, 4, 4, 7, 7},
-    {4, 8, 2, 5, 6, 6, 2, 4, 1, 6, 6, 2, 8, 7, 6, 1},
+    {6, 1, 2, 4, 10, 10, 3, 2, 4, 7, 2, 6, 6, 1, 2, 4},
+    {3, 2, 4, 7, 3, 3, 4, 10, 10, 7, 10, 4, 1, 2, 4, 7},
+    {7, 4, 7, 2, 1, 2, 3, 4, 10, 5, 1, 10, 4, 4, 7, 7},
+    {4, 10, 2, 5, 6, 6, 2, 4, 1, 6, 6, 2, 10, 7, 6, 1},
     {4, 3, 1, 6, 6, 1, 1, 3, 2, 1, 2, 3, 7, 6, 5, 1},
-    {8, 4, 4, 2, 1, 1, 2, 4, 3, 4, 8, 7, 3, 2, 1, 4},
-    {1, 7, 8, 4, 3, 2, 4, 8, 4, 7, 1, 3, 7, 3, 4, 2},
-    {6, 1, 3, 7, 4, 3, 8, 7, 3, 5, 6, 1, 4, 8, 1, 5},
+    {10, 4, 4, 2, 1, 1, 2, 4, 3, 4, 10, 7, 3, 2, 1, 4},
+    {1, 7, 10, 4, 3, 2, 4, 10, 4, 7, 1, 3, 7, 3, 4, 2},
+    {6, 1, 3, 7, 4, 3, 10, 7, 3, 5, 6, 1, 4, 10, 1, 5},
     {6, 2, 2, 3, 5, 1, 2, 7, 2, 6, 6, 2, 4, 7, 7, 1},
     {2, 3, 4, 2, 1, 2, 3, 3, 4, 2, 1, 3, 4, 7, 7, 1},
-    {4, 4, 7, 3, 4, 7, 1, 6, 7, 4, 2, 4, 8, 3, 7, 8},
-    {8, 7, 1, 2, 4, 8, 6, 5, 1, 2, 4, 7, 6, 1, 3, 4},
-    {7, 1, 5, 6, 6, 4, 7, 1, 2, 3, 8, 1, 5, 6, 2, 4},
-    {7, 2, 6, 1, 2, 3, 4, 8, 4, 4, 7, 3, 2, 3, 4, 8},
-    {7, 4, 1, 2, 3, 8, 6, 1, 3, 8, 8, 4, 4, 4, 8, 7}
+    {4, 4, 7, 3, 4, 7, 1, 6, 7, 4, 2, 4, 10, 3, 7, 10},
+    {10, 7, 1, 2, 4, 10, 6, 5, 1, 2, 4, 7, 6, 1, 3, 4},
+    {7, 1, 5, 6, 6, 4, 7, 1, 2, 3, 10, 1, 5, 6, 2, 4},
+    {7, 2, 6, 1, 2, 3, 4, 10, 4, 4, 7, 3, 2, 3, 4, 10},
+    {7, 4, 1, 2, 3, 10, 6, 1, 3, 10, 10, 4, 4, 4, 10, 7}
 };
 const uint8_t flame1[16][16] = {
     {00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00},
@@ -165,24 +165,24 @@ const uint8_t flame1[16][16] = {
     {01, 02, 03, 01, 04, 05, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14}
 };
 // still wip flame frame 2
-const uint8_t flame2[16][16] = {
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {00, 30, 95, 11, 01, 36, 41, 91, 81, 41, 00, 03, 66, 79, 00, 00},
-    {00, 30, 28, 89, 01, 01, 73, 10, 94, 15, 28, 41, 03, 36, 14, 00},
-    {01, 07, 77, 10, 47, 86, 54, 91, 38, 92, 93, 04, 41, 03, 68, 00},
-    {57, 56, 26, 69, 80, 02, 41, 56, 90, 20, 81, 03, 36, 37, 11, 00},
-    {87, 18, 04, 41, 74, 47, 20, 56, 15, 12, 32, 88, 89, 57, 68, 00},
-    {14, 18, 05, 18, 86, 29, 05, 56, 41, 59, 05, 29, 33, 05, 51, 00},
-    {28, 39, 18, 02, 70, 81, 53, 05, 82, 56, 83, 82, 84, 13, 85, 07},
-    {14, 73, 73, 79, 41, 05, 05, 07, 45, 79, 68, 80, 37, 41, 07, 72},
-    {41, 05, 05, 28, 76, 00, 77, 05, 32, 78, 05, 05, 64, 27, 05, 05}
-};
+// const uint8_t flame2[16][16] = {
+//     {},
+//     {},
+//     {},
+//     {},
+//     {},
+//     {},
+//     {},
+//     {00, 30, 95, 11, 01, 36, 41, 91, 81, 41, 00, 03, 66, 79, 00, 00},
+//     {00, 30, 28, 89, 01, 01, 73, 10, 94, 15, 28, 41, 03, 36, 14, 00},
+//     {01, 07, 77, 10, 47, 86, 54, 91, 38, 92, 93, 04, 41, 03, 68, 00},
+//     {57, 56, 26, 69, 80, 02, 41, 56, 90, 20, 81, 03, 36, 37, 11, 00},
+//     {87, 18, 04, 41, 74, 47, 20, 56, 15, 12, 32, 88, 89, 57, 68, 00},
+//     {14, 18, 05, 18, 86, 29, 05, 56, 41, 59, 05, 29, 33, 05, 51, 00},
+//     {28, 39, 18, 02, 70, 81, 53, 05, 82, 56, 83, 82, 84, 13, 85, 07},
+//     {14, 73, 73, 79, 41, 05, 05, 07, 45, 79, 68, 80, 37, 41, 07, 72},
+//     {41, 05, 05, 28, 76, 00, 77, 05, 32, 78, 05, 05, 64, 27, 05, 05}
+// };
 
 int detectMode() {
     int mode = 0;
@@ -480,118 +480,118 @@ void glowstone() {
                 case 5: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 255, 255)); break;
                 case 6: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 240, 217)); break;
                 case 7: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(136, 104, 57)); break;
-                case 8: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(116, 78, 39)); break;
+                case 10: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(116, 78, 39)); break;
                 default: break;
             }
         }
     }
 }
-void flame() {
-    for (int row = 0; row < 16; row++) {
-        for (int col = 0; col < 16; col++) {
-            switch (flame1[row][col]) {
-                case 01: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(194, 92, 3)); break; 
-                case 02: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(205, 123, 1)); break;
-                case 03: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(209, 126, 7)); break;
-                case 04: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(217, 149, 17)); break;
-                case 05: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(254, 255, 252)); break;
-                case 06: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(225, 172, 28)); break;
-                case 07: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(228, 175, 33)); break;
-                case 08: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(192, 85, 0)); break;
-                case 09: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(189, 83, 0)); break;
-                case 10: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(220, 146, 17)); break;
-                case 11: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(196, 99, 0)); break;
-                case 12: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(212, 140, 3)); break;
-                case 13: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(237, 202, 75)); break;
-                case 14: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(188, 82, 0)); break;
-                case 15: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(233, 192, 58)); break;
-                case 16: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(230, 183, 39)); break;
-                case 17: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(211, 128, 12)); break;
-                case 18: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(224, 166, 23)); break;
-                case 19: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(248, 228, 145)); break;
-                case 20: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(237, 196, 71)); break;
-                case 21: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(249, 243, 202)); break;
-                case 22: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(242, 216, 108)); break;
-                case 23: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(243, 210, 97)); break;
-                case 24: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(240, 213, 98)); break;
-                case 25: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(201, 103, 0)); break;
-                case 26: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(236, 189, 57)); break;
-                case 27: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(238, 205, 84)); break;
-                case 28: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(215, 142, 8)); break;
-                case 29: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(249, 234, 169)); break;
-                case 30: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(218, 150, 19)); break;
-                case 31: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(224, 160, 16)); break;
-                case 32: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(201, 109, 3)); break;
-                case 33: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(244, 221, 126)); break;
-                case 34: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(205, 112, 0)); break;
-                case 35: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(209, 121, 3)); break;
-                case 36: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(198, 107, 0)); break;
-                case 37: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(198, 101, 0)); break;
-                case 38: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(242, 218, 116)); break;
-                case 39: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(241, 215, 107)); break;
-                case 40: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(229, 183, 50)); break;
-                case 41: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(213, 134, 0)); break;
-                case 42: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(243, 219, 117)); break;
-                case 43: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(238, 197, 72)); break;
-                case 44: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(244, 220, 118)); break;
-                case 45: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(228, 169, 28)); break;
-                case 46: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(203, 116, 28)); break;
-                case 47: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(203, 116, 0)); break;
-                case 48: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(184, 79, 3)); break;
-                case 49: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(210, 122, 5)); break;
-                case 50: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(242, 209, 96)); break;
-                case 51: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(213, 129, 14)); break;
-                case 52: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(216, 138, 5)); break;
-                case 53: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(251, 246, 211)); break;
-                case 54: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(220, 152, 23)); break;
-                case 55: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(182, 64, 0)); break;
-                case 56: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(235, 188, 56)); break;
-                case 57: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(198, 95, 0)); break;
-                case 58: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(213, 129, 0)); break;
-                case 59: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(241, 207, 87)); break;
-                case 60: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(249, 230, 153)); break;
-                case 61: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(223, 159, 14)); break;
-                case 62: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(219, 156, 6)); break;
-                case 63: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(204, 112, 9)); break;
-                case 64: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(232, 185, 52)); break;
-                case 65: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(229, 182, 38)); break;
-                case 66: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(216, 143, 10)); break;
-                case 67: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(185, 73, 1)); break;
-                case 68: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(189, 88, 0)); break;
-                case 69: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(226, 162, 20)); break;
-                case 70: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(207, 119, 0)); break;
-                case 71: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(188, 75, 4)); break;
-                case 72: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(184, 72, 0)); break;
-                case 73: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(206, 118, 0)); break;
-                case 74: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(199, 102, 0)); break;
-                case 75: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(179, 68, 0)); break;
-                case 76: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(222, 153, 5)); break;
-                case 77: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(250, 236, 178)); break;
-                case 78: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(202, 115, 0)); break;
-                case 79: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(193, 91, 2)); break;
-                case 80: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(211, 133, 0)); break;
-                case 81: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(220, 157, 8)); break;
-                case 82: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(241, 208, 95)); break;
-                case 83: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(245, 223, 134)); break;
-                case 84: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(237, 204, 83)); break;
-                case 85: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(250, 249, 220)); break;
-                case 86: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(208, 120, 1)); break;
-                case 87: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(183, 71, 0)); break;
-                case 88: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(202, 110, 5)); break;
-                case 89: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(203, 111, 7)); break;
-                case 90: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(228, 182, 48)); break;
-                case 91: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(225, 161, 18)); break;
-                case 92: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(247, 223, 128)); break;
-                case 93: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(242, 208, 88)); break;
-                case 94: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(232, 179, 37)); break;
-                case 95: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(206, 112, 0)); break;
-                // line down below is for finding the case number
-                // case 96: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(194)); break;
-                default: break;
-            }
-        }
-    }
-}
+// void flame() {
+//     for (int row = 0; row < 16; row++) {
+//         for (int col = 0; col < 16; col++) {
+//             switch (flame1[row][col]) {
+//                 case 01: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(194, 92, 3)); break; 
+//                 case 02: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(205, 123, 1)); break;
+//                 case 03: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(209, 126, 7)); break;
+//                 case 04: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(217, 149, 17)); break;
+//                 case 05: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(254, 255, 252)); break;
+//                 case 06: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(225, 172, 28)); break;
+//                 case 07: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(228, 175, 33)); break;
+//                 case 08: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(192, 85, 0)); break;
+//                 case 09: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(189, 83, 0)); break;
+//                 case 10: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(220, 146, 17)); break;
+//                 case 11: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(196, 99, 0)); break;
+//                 case 12: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(212, 140, 3)); break;
+//                 case 13: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(237, 202, 75)); break;
+//                 case 14: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(188, 82, 0)); break;
+//                 case 15: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(233, 192, 58)); break;
+//                 case 16: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(230, 183, 39)); break;
+//                 case 17: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(211, 128, 12)); break;
+//                 case 18: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(224, 166, 23)); break;
+//                 case 19: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(248, 228, 145)); break;
+//                 case 20: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(237, 196, 71)); break;
+//                 case 21: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(249, 243, 202)); break;
+//                 case 22: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(242, 216, 108)); break;
+//                 case 23: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(243, 210, 97)); break;
+//                 case 24: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(240, 213, 98)); break;
+//                 case 25: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(201, 103, 0)); break;
+//                 case 26: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(236, 189, 57)); break;
+//                 case 27: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(238, 205, 84)); break;
+//                 case 28: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(215, 142, 8)); break;
+//                 case 29: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(249, 234, 169)); break;
+//                 case 30: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(218, 150, 19)); break;
+//                 case 31: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(224, 160, 16)); break;
+//                 case 32: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(201, 109, 3)); break;
+//                 case 33: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(244, 221, 126)); break;
+//                 case 34: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(205, 112, 0)); break;
+//                 case 35: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(209, 121, 3)); break;
+//                 case 36: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(198, 107, 0)); break;
+//                 case 37: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(198, 101, 0)); break;
+//                 case 38: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(242, 218, 116)); break;
+//                 case 39: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(241, 215, 107)); break;
+//                 case 40: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(229, 183, 50)); break;
+//                 case 41: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(213, 134, 0)); break;
+//                 case 42: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(243, 219, 117)); break;
+//                 case 43: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(238, 197, 72)); break;
+//                 case 44: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(244, 220, 118)); break;
+//                 case 45: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(228, 169, 28)); break;
+//                 case 46: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(203, 116, 28)); break;
+//                 case 47: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(203, 116, 0)); break;
+//                 case 48: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(184, 79, 3)); break;
+//                 case 49: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(210, 122, 5)); break;
+//                 case 50: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(242, 209, 96)); break;
+//                 case 51: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(213, 129, 14)); break;
+//                 case 52: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(216, 138, 5)); break;
+//                 case 53: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(251, 246, 211)); break;
+//                 case 54: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(220, 152, 23)); break;
+//                 case 55: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(182, 64, 0)); break;
+//                 case 56: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(235, 188, 56)); break;
+//                 case 57: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(198, 95, 0)); break;
+//                 case 58: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(213, 129, 0)); break;
+//                 case 59: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(241, 207, 87)); break;
+//                 case 60: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(249, 230, 153)); break;
+//                 case 61: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(223, 159, 14)); break;
+//                 case 62: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(219, 156, 6)); break;
+//                 case 63: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(204, 112, 9)); break;
+//                 case 64: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(232, 185, 52)); break;
+//                 case 65: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(229, 182, 38)); break;
+//                 case 66: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(216, 143, 10)); break;
+//                 case 67: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(185, 73, 1)); break;
+//                 case 68: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(189, 88, 0)); break;
+//                 case 69: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(226, 162, 20)); break;
+//                 case 70: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(207, 119, 0)); break;
+//                 case 71: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(188, 75, 4)); break;
+//                 case 72: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(184, 72, 0)); break;
+//                 case 73: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(206, 118, 0)); break;
+//                 case 74: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(199, 102, 0)); break;
+//                 case 75: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(179, 68, 0)); break;
+//                 case 76: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(222, 153, 5)); break;
+//                 case 77: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(250, 236, 178)); break;
+//                 case 78: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(202, 115, 0)); break;
+//                 case 79: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(193, 91, 2)); break;
+//                 case 80: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(211, 133, 0)); break;
+//                 case 81: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(220, 157, 8)); break;
+//                 case 82: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(241, 208, 95)); break;
+//                 case 83: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(245, 223, 134)); break;
+//                 case 84: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(237, 204, 83)); break;
+//                 case 85: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(250, 249, 220)); break;
+//                 case 86: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(208, 120, 1)); break;
+//                 case 87: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(183, 71, 0)); break;
+//                 case 88: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(202, 110, 5)); break;
+//                 case 89: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(203, 111, 7)); break;
+//                 case 90: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(228, 182, 48)); break;
+//                 case 91: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(225, 161, 18)); break;
+//                 case 92: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(247, 223, 128)); break;
+//                 case 93: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(242, 208, 88)); break;
+//                 case 94: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(232, 179, 37)); break;
+//                 case 95: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(206, 112, 0)); break;
+//                 // line down below is for finding the case number
+//                 // case 96: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(194)); break;
+//                 default: break;
+//             }
+//         }
+//     }
+// }
 
 int xyToIndex(int x, int y) {
   if (y % 2 == 1) {
