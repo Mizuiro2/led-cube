@@ -186,13 +186,13 @@ const uint8_t flame2[16][16] = {
 
 int detectMode() {
     int mode = 0;
-    if (1) {
+    if (0) {
         mode = 1;
     }
     else if (0) {
         mode = 2;
     }
-    else if (0) {
+    else if (1) {
         mode = 3;
     }
     else if (0) {
