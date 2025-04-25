@@ -110,13 +110,13 @@ const uint8_t gasAlert[16][16] = {
     {0, 0, 0, 3, 4, 0, 0, 4, 3, 0, 0, 0, 4, 0, 0, 0},   // line 15
     {0, 3, 3, 0, 4, 0, 0, 4, 3, 0, 0, 0, 4, 4, 4, 4},   // line 16
 };
-// const uint8_t grass[16][16] = {
+// const uint16_t grass[16][16] = {
 //     {01, 02, 03, 04, 01, 02, 01, 03, 03, 05, 01, 05, 06, 07, 05, 03},   // line 1
 //     {01, 04, 01, 02, 06, 08, 01, 07, 06, 03, 01, 09, 01, 04, 01, 10},   // line 2
 //     {03, 08, 06, 11, 01, 08, 02, 08, 01, 05, 03, 12, 08, 13, 03, 08},   // line 3
 //     {08, 21, 08, 08, 17, 08, 08, 08, 18, 08, 19, 08, 15, 08, 08, 15},   // line 4
 //     {14, 15, 14, 20, 08, 14, 15, 15, 08, 08, 08, 16, 15, 14, 08, 15},   // line 5
-//     {15, 08, 14, 14, 15, 14, 08, 08, 08, 15, 15, 08, 15. 15, 15, 20},   // line 6
+//     {15, 08, 14, 14, 15, 14, 08, 08, 08, 15, 15, 08, 15, 15, 15, 20},   // line 6
 //     {20, 15, 15, 15, 16, 15, 15, 20, 20, 15, 20, 20, 15, 14, 15, 14},   // line 7
 //     {15, 15, 20, 20, 14, 14, 15, 15, 14, 08, 14, 14, 15, 15, 14, 14},   // line 8
 //     {14, 15, 15, 14, 15, 14, 15, 08, 15, 14, 14, 15, 15, 15, 08, 15},   // line 9
@@ -195,14 +195,18 @@ int detectMode() {
     else if (0) {
         mode = 3;
     }
-    else if (1) {
+    else if (0) {
         mode = 4;
+    }
+    else if (0) {
+        mode = 5;
     }
     return mode;
 }
 
 void displaySwitchMode(int mode) {
     panel1.clear();
+    panel2.clear();
 
     int temp = DHT11.temperature;
     int hum = DHT11.humidity;
@@ -233,7 +237,7 @@ void displaySwitchMode(int mode) {
         break;
             // flame();
         case 5:
-
+            allOn();
         break;
 
         default:
@@ -241,6 +245,7 @@ void displaySwitchMode(int mode) {
     }
 
     panel1.show();
+    panel2.show();
 }
 
 void setup() {
@@ -615,6 +620,7 @@ void switchError() {
                     pixelIndex = y * 16 + x;
                 }
                 panel1.setPixelColor(pixelIndex, panel1.Color(255, 0, 0));
+                panel2.setPixelColor(pixelIndex, panel2.Color(255, 0, 0));
             }
         }
     }
@@ -635,6 +641,15 @@ void switchError() {
         }
     }
 }
+void allOn() {
+    for (int i = 0; i < NUM_LEDS; i++) {
+        panel1.setPixelColor(i, panel1.Color(255, 255, 255)); // full white
+        panel2.setPixelColor(i, panel2.Color(255, 255, 255)); // full white
+        panel1.show();
+        panel2.show();
+    }
+    delay(1000);
+}
 
 int readMQ2() {
   unsigned int sensorValue = analogRead(sensorPin);  // Read the analog value from sensor
@@ -644,14 +659,15 @@ int readMQ2() {
 
 void loop() {
     displaySwitchMode(detectMode());
+    panel1.show();
     
     /* below is code for testing and monitoring*/
-    //  Serial.println();
+    Serial.println();
     int chk = DHT11.read(DHT11PIN);
-    //  Serial.print("Humidity (%): ");
-    //  Serial.println((float)DHT11.humidity, 2);
-    //  Serial.print("Temperature  (C): ");
-    //  Serial.println((float)DHT11.temperature, 2);
+    Serial.print("Humidity (%): ");
+    Serial.println((float)DHT11.humidity, 2);
+    Serial.print("Temperature  (C): ");
+    Serial.println((float)DHT11.temperature, 2);
     //  Serial.print("Analog output: ");
     //  Serial.println(readMQ2());
     //  not needed for actual project
