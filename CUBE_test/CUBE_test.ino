@@ -1,292 +1,46 @@
 #include <Adafruit_NeoPixel.h>
-#include <dht11.h>
 
-#define NUM_LEDS 256
-#define LED_PIN 11
-#define DHT11PIN 4
+#define PIN 6
+#define WIDTH 16
+#define HEIGHT 16
+#define NUMPIXELS (WIDTH * HEIGHT)
 
-dht11 DHT11;
+Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-Adafruit_NeoPixel pixels(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
-
-const uint8_t numbers[][7] = {
-    {0x1F, 0x11, 0x11, 0x11, 0x11, 0x11, 0x1F}, // 0
-    {0x04, 0x0C, 0x04, 0x04, 0x04, 0x04, 0x0E}, // 1
-    {0x1F, 0x01, 0x01, 0x1F, 0x10, 0x10, 0x1F}, // 2
-    {0x1F, 0x01, 0x01, 0x1F, 0x01, 0x01, 0x1F}, // 3
-    {0x11, 0x11, 0x11, 0x1F, 0x01, 0x01, 0x01}, // 4
-    {0x1F, 0x10, 0x10, 0x1F, 0x01, 0x01, 0x1F}, // 5
-    {0x1F, 0x10, 0x10, 0x1F, 0x11, 0x11, 0x1F}, // 6
-    {0x1F, 0x01, 0x02, 0x04, 0x08, 0x08, 0x08}, // 7
-    {0x1F, 0x11, 0x11, 0x1F, 0x11, 0x11, 0x1F}, // 8
-    {0x1F, 0x11, 0x11, 0x1F, 0x01, 0x01, 0x1F}  // 9
+uint32_t image[16][16] = {
+  {pixels.Color(109,158,68), pixels.Color(111,154,72), pixels.Color(119,170,74), pixels.Color(112,157,71), pixels.Color(120,168,75), pixels.Color(116,176,75), pixels.Color(111,162,71), pixels.Color(112,153,71), pixels.Color(116,164,74), pixels.Color(109,161,73), pixels.Color(116,159,74), pixels.Color(116,165,72), pixels.Color(107,156,69), pixels.Color(110,153,72), pixels.Color(117,164,75), pixels.Color(109,155,72)},
+  {pixels.Color(116,164,71), pixels.Color(112,155,71), pixels.Color(115,160,74), pixels.Color(113,166,73), pixels.Color(118,169,77), pixels.Color(114,163,73), pixels.Color(111,165,72), pixels.Color(111,156,70), pixels.Color(119,164,75), pixels.Color(118,158,73), pixels.Color(106,97,58), pixels.Color(106,149,67), pixels.Color(119,166,75), pixels.Color(121,168,78), pixels.Color(115,164,75), pixels.Color(120,165,76)},
+  {pixels.Color(107,160,68), pixels.Color(115,157,74), pixels.Color(106,96,59), pixels.Color(107,154,68), pixels.Color(111,153,68), pixels.Color(106,95,58), pixels.Color(112,150,69), pixels.Color(115,161,73), pixels.Color(112,143,69), pixels.Color(107,88,57), pixels.Color(108,84,58), pixels.Color(107,142,70), pixels.Color(110,151,70), pixels.Color(112,158,72), pixels.Color(114,164,73), pixels.Color(118,168,76)},
+  {pixels.Color(113,168,73), pixels.Color(114,149,71), pixels.Color(113,94,61), pixels.Color(111,146,67), pixels.Color(116,151,68), pixels.Color(112,85,61), pixels.Color(111,93,60), pixels.Color(114,150,71), pixels.Color(109,92,59), pixels.Color(114,81,60), pixels.Color(147,108,79), pixels.Color(117,91,63), pixels.Color(105,83,56), pixels.Color(109,86,58), pixels.Color(114,97,62), pixels.Color(116,155,71)},
+  {pixels.Color(110,150,72), pixels.Color(118,98,65), pixels.Color(182,136,97), pixels.Color(121,95,64), pixels.Color(109,86,58), pixels.Color(154,113,83), pixels.Color(149,109,80), pixels.Color(118,92,63), pixels.Color(153,112,82), pixels.Color(151,111,81), pixels.Color(167,123,89), pixels.Color(189,140,101), pixels.Color(123,88,66), pixels.Color(158,114,84), pixels.Color(188,139,100), pixels.Color(114,89,60)},
+  {pixels.Color(121,154,78), pixels.Color(151,116,82), pixels.Color(163,118,88), pixels.Color(185,136,98), pixels.Color(131,94,71), pixels.Color(191,141,102), pixels.Color(148,109,83), pixels.Color(157,114,84), pixels.Color(187,139,101), pixels.Color(131,95,70), pixels.Color(188,139,101), pixels.Color(196,146,105), pixels.Color(165,122,89), pixels.Color(201,149,107), pixels.Color(193,143,103), pixels.Color(121,88,64)},
+  {pixels.Color(159,122,86), pixels.Color(151,111,82), pixels.Color(122,88,67), pixels.Color(160,117,86), pixels.Color(195,145,105), pixels.Color(203,151,108), pixels.Color(157,115,85), pixels.Color(156,114,84), pixels.Color(142,105,81), pixels.Color(147,112,86), pixels.Color(122,89,67), pixels.Color(127,93,69), pixels.Color(199,148,107), pixels.Color(197,146,105), pixels.Color(134,98,73), pixels.Color(188,139,100)},
+  {pixels.Color(197,145,105), pixels.Color(128,93,70), pixels.Color(152,111,82), pixels.Color(143,105,81), pixels.Color(166,122,89), pixels.Color(194,143,103), pixels.Color(132,96,72), pixels.Color(152,110,81), pixels.Color(124,94,75), pixels.Color(141,143,138), pixels.Color(156,118,91), pixels.Color(157,114,84), pixels.Color(193,144,103), pixels.Color(170,124,91), pixels.Color(154,112,83), pixels.Color(158,115,85)},
+  {pixels.Color(194,144,104), pixels.Color(162,119,87), pixels.Color(192,141,102), pixels.Color(156,114,84), pixels.Color(157,115,85), pixels.Color(164,120,88), pixels.Color(188,139,101), pixels.Color(160,117,86), pixels.Color(192,142,103), pixels.Color(198,151,113), pixels.Color(194,144,105), pixels.Color(143,104,80), pixels.Color(124,90,68), pixels.Color(186,138,100), pixels.Color(163,119,88), pixels.Color(124,90,68)},
+  {pixels.Color(123,89,67), pixels.Color(156,114,85), pixels.Color(157,120,92), pixels.Color(127,92,70), pixels.Color(148,109,81), pixels.Color(140,103,79), pixels.Color(157,115,85), pixels.Color(128,92,69), pixels.Color(156,114,84), pixels.Color(161,117,86), pixels.Color(147,108,83), pixels.Color(151,110,82), pixels.Color(114,82,62), pixels.Color(122,89,67), pixels.Color(192,143,103), pixels.Color(192,142,103)},
+  {pixels.Color(158,114,83), pixels.Color(156,118,90), pixels.Color(144,146,139), pixels.Color(187,143,107), pixels.Color(123,89,66), pixels.Color(116,84,64), pixels.Color(158,116,85), pixels.Color(188,140,101), pixels.Color(127,92,69), pixels.Color(157,115,85), pixels.Color(161,118,87), pixels.Color(163,119,87), pixels.Color(156,114,84), pixels.Color(123,89,67), pixels.Color(150,110,81), pixels.Color(123,89,68)},
+  {pixels.Color(201,149,107), pixels.Color(160,118,87), pixels.Color(160,122,93), pixels.Color(200,149,107), pixels.Color(159,116,85), pixels.Color(158,115,85), pixels.Color(167,123,90), pixels.Color(201,149,107), pixels.Color(162,119,87), pixels.Color(195,145,104), pixels.Color(205,153,109), pixels.Color(204,151,109), pixels.Color(198,147,106), pixels.Color(193,143,103), pixels.Color(129,94,71), pixels.Color(137,100,77)},
+  {pixels.Color(196,145,105), pixels.Color(145,107,82), pixels.Color(161,117,86), pixels.Color(200,148,106), pixels.Color(167,122,89), pixels.Color(194,143,104), pixels.Color(200,149,107), pixels.Color(196,145,105), pixels.Color(165,121,89), pixels.Color(165,121,89), pixels.Color(196,146,105), pixels.Color(192,142,103), pixels.Color(131,95,71), pixels.Color(195,145,104), pixels.Color(195,145,105), pixels.Color(197,146,106)},
+  {pixels.Color(147,108,83), pixels.Color(137,100,78), pixels.Color(159,116,86), pixels.Color(195,144,104), pixels.Color(161,118,87), pixels.Color(151,111,85), pixels.Color(153,112,83), pixels.Color(131,95,71), pixels.Color(193,143,103), pixels.Color(160,117,86), pixels.Color(127,92,69), pixels.Color(116,84,63), pixels.Color(117,84,64), pixels.Color(156,114,84), pixels.Color(145,107,82), pixels.Color(161,118,87)},
+  {pixels.Color(186,138,100), pixels.Color(121,88,67), pixels.Color(136,100,77), pixels.Color(145,106,82), pixels.Color(162,118,87), pixels.Color(186,138,100), pixels.Color(126,91,69), pixels.Color(154,112,83), pixels.Color(195,145,104), pixels.Color(166,123,90), pixels.Color(181,138,104), pixels.Color(118,86,65), pixels.Color(147,107,79), pixels.Color(157,115,85), pixels.Color(122,89,67), pixels.Color(154,112,83)},
+  {pixels.Color(140,103,80), pixels.Color(114,82,63), pixels.Color(135,100,77), pixels.Color(154,113,84), pixels.Color(159,116,85), pixels.Color(162,119,87), pixels.Color(155,113,84), pixels.Color(159,116,85), pixels.Color(162,118,87), pixels.Color(158,120,92), pixels.Color(140,146,142), pixels.Color(110,85,68), pixels.Color(121,87,65), pixels.Color(192,142,102), pixels.Color(159,117,86), pixels.Color(157,115,84)}
 };
-const uint8_t letter_C[5] = {
-  0x1E, // 00011110
-  0x10, // 00010000
-  0x10, // 00010000
-  0x10, // 00010000
-  0x1E  // 00011110
-};
-const uint8_t percentSymbol[5] = {
-  0x18,
-  0x1A,
-  0x04,
-  0x08,
-  0x16,
-  0x06
-};
-
 
 
 void setup() {
-    pixels.begin();
-    Serial.begin(9600);
-}
+  pixels.begin();
+  pixels.clear();
 
-void displayNumber_t1(int num, uint32_t color) {
-    
-    int startX = 0;
-    int startY = 0;
-    
-    for (int row = 0; row < 7; row++) {
-        for (int col = 0; col < 5; col++) {
-            if (numbers[num][row] & (0x10 >> col)) {
-                int pixelIndex;
-                int y = startY + row;
-                int x = startX + col;
-                
-                // 修正扫描方向：奇数行从右到左，偶数行从左到右
-                if (y % 2 == 0) {
-                    pixelIndex = y * 16 + (15 - x);
-                } else {
-                    pixelIndex = y * 16 + x;
-                }
-                
-                pixels.setPixelColor(pixelIndex, color);
-            }
-        }
-    }
-    pixels.show();
-}
-void displayNumber_t2(int num, uint32_t color) {
-    // pixels.clear();
-    
-    int startX = 6;
-    int startY = 0;
-    
-    for (int row = 0; row < 7; row++) {
-        for (int col = 0; col < 5; col++) {
-            if (numbers[num][row] & (0x10 >> col)) {
-                int pixelIndex;
-                int y = startY + row;
-                int x = startX + col;
-                
-                // 修正扫描方向：奇数行从右到左，偶数行从左到右
-                if (y % 2 == 0) {
-                    pixelIndex = y * 16 + (15 - x);
-                } else {
-                    pixelIndex = y * 16 + x;
-                }
-                
-                pixels.setPixelColor(pixelIndex, color);
-            }
-        }
-    }
-    pixels.show();
-}
-void displayLetterC(uint32_t color) {
-  int startX = 12; // top-right (X:11-15)
-  int startY = 0;  // top row
-
-  for (int row = 0; row < 5; row++) {
-    for (int col = 0; col < 4; col++) {
-      if (letter_C[row] & (0x10 >> col)) {
-        int x = startX + col;
-        int y = startY + row;
-        int pixelIndex;
-
-        if (y % 2 == 0) {
-          pixelIndex = y * 16 + (15 - x); // Even rows: right to left
-        } else {
-          pixelIndex = y * 16 + x;        // Odd rows: left to right
-        }
-
-        pixels.setPixelColor(pixelIndex, color);
-      }
+  for (int y = 0; y < HEIGHT; y++) {
+    for (int x = 0; x < WIDTH; x++) {
+      int pixelIndex = y * WIDTH + x;
+      pixels.setPixelColor(pixelIndex, image[y][x]);
     }
   }
-  pixels.show();
-}
-
-void displayNumber_h1(int num, uint32_t color) {
-    // pixels.clear();
-    
-    int startX = 0;
-    int startY = 9;
-    
-    for (int row = 0; row < 7; row++) {
-        for (int col = 0; col < 5; col++) {
-            if (numbers[num][row] & (0x10 >> col)) {
-                int pixelIndex;
-                int y = startY + row;
-                int x = startX + col;
-                
-                // 修正扫描方向：奇数行从右到左，偶数行从左到右
-                if (y % 2 == 0) {
-                    pixelIndex = y * 16 + (15 - x);
-                } else {
-                    pixelIndex = y * 16 + x;
-                }
-                
-                pixels.setPixelColor(pixelIndex, color);
-            }
-        }
-    }
-    pixels.show();
-}
-void displayNumber_h2(int num, uint32_t color) {
-    // pixels.clear();
-    
-    int startX = 6;
-    int startY = 9;
-    
-    for (int row = 0; row < 7; row++) {
-        for (int col = 0; col < 5; col++) {
-            if (numbers[num][row] & (0x10 >> col)) {
-                int pixelIndex;
-                int y = startY + row;
-                int x = startX + col;
-                
-                // 修正扫描方向：奇数行从右到左，偶数行从左到右
-                if (y % 2 == 0) {
-                    pixelIndex = y * 16 + (15 - x);
-                } else {
-                    pixelIndex = y * 16 + x;
-                }
-                
-                pixels.setPixelColor(pixelIndex, color);
-            }
-        }
-    }
-    pixels.show();
-}
-void displayPercentSymbol(uint32_t color_humidity) {
-  int startX = 12; // top-right (X:11-15)
-  int startY = 9;  // top row
-
-  for (int row = 0; row < 5; row++) {
-    for (int col = 0; col < 4; col++) {
-      if (percentSymbol[row] & (0x10 >> col)) {
-        int x = startX + col;
-        int y = startY + row;
-        int pixelIndex;
-
-        if (y % 2 == 0) {
-          pixelIndex = y * 16 + (15 - x); // Even rows: right to left
-        } else {
-          pixelIndex = y * 16 + x;        // Odd rows: left to right
-        }
-
-        pixels.setPixelColor(pixelIndex, color_humidity);
-      }
-    }
-  }
+  
   pixels.show();
 }
 
 void loop() {
-  Serial.println();
-  int chk = DHT11.read(DHT11PIN);
-  Serial.print("Humidity (%): ");
-  Serial.println((float)DHT11.humidity, 2);
-  Serial.print("Temperature  (C): ");
-  Serial.println((float)DHT11.temperature, 2);
-
-  int temp = 69;
-  temp = DHT11.temperature;
-  int k = temp % 10;
-  int j = temp / 10;
-  uint32_t color_temperature = pixels.Color(255,255,255);
-  int rt = 255;
-  int gt = 102;
-  int bt = 153;
-  if (temp <= -10) {
-    rt = 127;
-    gt = 0;
-    bt = 255;
-  }
-  else if (-10 < temp && temp <= -4) {
-    rt = 127 + (temp + 10) * (-127 / 6);
-    gt = 0;
-    bt = 255;
-  }
-  else if (-4 < temp && temp <= 8) {
-    rt = 0;
-    gt = (temp + 4) * (255 / 12);
-    bt = 255;
-  }
-  else if (8 < temp && temp <= 20) {
-    rt = 0;
-    gt = 255;
-    bt = 255 + (temp - 8) * (-255 / 12);
-  }
-  else if (20 < temp && temp <= 32) {
-    rt = (temp - 20) * (255 / 12);
-    gt = 255;
-    bt = 0;
-  }
-  else if (32 < temp && temp <= 44) {
-    rt = 255;
-    gt = 255 + (temp - 32) * (-255 / 12);
-    bt = 0;
-  }
-  else {
-    rt = 255;
-    gt = 0;
-    bt = 0;
-  }
-  color_temperature = pixels.Color(rt,gt,bt);
-  pixels.clear();
-  displayNumber_t1(j,color_temperature);
-  displayNumber_t2(k,color_temperature);
-  displayLetterC(color_temperature);
-
-  int hum = DHT11.humidity;
-  uint32_t color_humidity = pixels.Color(255,102,153);
-  int rh = 255;
-  int gh = 102;
-  int bh = 153;
-  if (hum = 0) {
-    rh = 255;
-    gh = 255;
-    bh = 0;
-  }
-  else if (hum = 100) {
-    rh = 0;
-    gh = 0;
-    bh = 255;
-  }
-  else if (hum > 0 && hum <= 33) {
-    rh = 255 - (hum / 33) * 255;
-    gh = 255;
-    bh = 0;
-  }
-  else if (hum > 33 && hum <= 66) {
-    rh = 0;
-    gh = 255;
-    bh = 0 + (hum - 33) * 255 / 33;
-  }
-  else if (hum > 66 && hum < 100) {
-    rh = 0;
-    gh = 255 - (255 * (hum - 66) / 34);
-    bh = 255;
-  }
-  int tens = hum / 10;
-  int ones = hum % 10;
-  displayNumber_h1(tens, color_humidity);
-  displayNumber_h2(ones, color_humidity);
-  displayPercentSymbol(color_humidity);
-
-  delay(5000);
+  // Static display
 }
