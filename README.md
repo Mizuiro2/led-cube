@@ -8,3 +8,6 @@
 - DHT11: https://blog.csdn.net/acktomas/article/details/117073078
 ADXL_345:
 ![ADXL_345](https://github.com/user-attachments/assets/1eff09d8-0a12-439f-b8d4-83ced4216489)
+
+- Adafruit_neopixel Library Explained
+- https://en.hwlibre.com/How-to-use-the-Adafruit-Neopixel-library-in-your-projects/
