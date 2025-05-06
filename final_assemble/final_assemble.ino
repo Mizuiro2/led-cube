@@ -9,6 +9,11 @@
 #define LED_PIN2    11
 #define DHT11PIN    4
 #define sensorPin   A0
+#define touchPin    2
+#define numModes    4
+bool lastTouchState = LOW;
+
+int currentMode = 0;
 
 dht11 DHT11;
 
@@ -131,22 +136,22 @@ const uint8_t glowstone[16][16] = {
 };
 
 
-int detectMode() {
-    int mode = 0;
-    if (0) {
-        mode = 1;
-    }
-    else if (0) {
-        mode = 2;
-    }
-    else if (0) {
-        mode = 3;
-    }
-    else if (0) {
-        mode = 4;
-    }
-    return mode;
-}
+// int detectMode() {
+//     int mode = 0;
+//     if (0) {
+//         mode = 1;
+//     }
+//     else if (0) {
+//         mode = 2;
+//     }
+//     else if (0) {
+//         mode = 3;
+//     }
+//     else if (0) {
+//         mode = 4;
+//     }
+//     return mode;
+// }
 
 void displaySwitchMode(int mode) {
     panel1.clear();
@@ -189,6 +194,7 @@ void displaySwitchMode(int mode) {
 }
 
 void setup() {
+    pinMode(touchPin, INPUT);
     panel1.begin();
     panel2.begin();
     Serial.begin(9600);
@@ -463,7 +469,18 @@ int readMQ2() {
 }
 
 void loop() {
-    displaySwitchMode(detectMode());
+    bool touchState = digitalRead(touchPin);
+    if (touchState == HIGH && lastTouchState == LOW) {
+        currentMode++;
+        if (currentMode >= numModes) {
+            currentMode = 0;
+        }
+        Serial.print("Mode changed to: ");
+        Serial.println(currentMode);
+
+        displaySwitchMode(currentMode);
+    }
+    lastTouchState = touchState;
     panel1.show();
     
     /* below is code for testing and monitoring*/
