@@ -136,7 +136,14 @@ const uint8_t glowstone[16][16] = {
 };
 
 void displaySwitchMode(int mode) {
-    
+    switch(mode) {
+        case 1:
+        switchError();
+        break;
+        
+        default:
+        allOn();
+    }
 }
 
 void setup() {
@@ -339,13 +346,20 @@ void displayGlowstone() {
         for (int col = 0; col < 16; col++) {
             switch (glowstone[row][col]) {
                 case 1: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(251, 218, 115)); break; 
+                        panel2.setPixelColor(xyToIndex(col, row), panel2.Color(251, 218, 115)); break; 
                 case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(204, 134, 83)); break;
-                case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(133, 79, 41)); break;
+                        panel1.setPixelColor(xyToIndex(col, row), panel2.Color(204, 134, 83)); break;
+                case 3: panel2.setPixelColor(xyToIndex(col, row), panel1.Color(133, 79, 41)); break;
                 case 4: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(112, 69, 34)); break;
+                        panel2.setPixelColor(xyToIndex(col, row), panel2.Color(112, 69, 34)); break;
                 case 5: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 255, 255)); break;
+                        panel2.setPixelColor(xyToIndex(col, row), panel2.Color(255, 255, 255)); break;
                 case 6: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 240, 217)); break;
+                        panel2.setPixelColor(xyToIndex(col, row), panel2.Color(255, 240, 217)); break;
                 case 7: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(136, 104, 57)); break;
+                        panel2.setPixelColor(xyToIndex(col, row), panel2.Color(136, 104, 57)); break;
                 case 10: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(116, 78, 39)); break;
+                         panel2.setPixelColor(xyToIndex(col, row), panel2.Color(116, 78, 39)); break;
                 default: break;
             }
         }
@@ -425,7 +439,7 @@ void loop() {
 
     /* below is code for testing and monitoring*/
     Serial.println();
-    int chk = DHT11.read(DHT11PIN);
+    int chk = DHT11.read(DHT11_PIN);
     Serial.print("Humidity (%): ");
     Serial.println((float)DHT11.humidity, 2);
     Serial.print("Temperature  (C): ");
