@@ -138,12 +138,46 @@ const uint8_t glowstone[16][16] = {
 void displaySwitchMode(int mode) {
     switch(mode) {
         case 1:
-        switchError();
+            switchError();
         break;
-        
+
+        case 2: 
+            numberPut(0, 0, temp, tempColor(temp));
+            celsiusPut(tempColor(temp));
+            numberPut(0, 9, hum, humColor(hum));
+            percentPut(humColor(hum));
+            if (gas < 65) {
+                gassafeDisplay2();
+            }
+            else {
+                gasalertDisplay2();
+            }
+        break;
+
+        case 3: 
+            numberPut2(0, 0, temp, tempColor2(temp));
+            celsiusPut2(tempColor2(temp));
+            numberPut2(0, 9, hum, humColor2(hum));
+            percentPut(humColor2(hum));
+            if (gas < 65) {
+                gassafeDisplay();
+            }
+            else {
+                gasalertDisplay();
+            }
+        break;
+
+        case 4:
+            displayGlowstone();
+        break;
+
         default:
         allOn();
     }
+    panel1.clear();
+    panel1.show();
+    panel2.clear();
+    panel2.show();
 }
 
 void setup() {
@@ -214,6 +248,26 @@ void celsiusPut(uint32_t color) {
         }
     }
 }
+void celsiusPut2(uint32_t color) {
+    int startX = 12;
+    int startY = 0;
+    for (int row = 0; row < 6; row++) {
+        for (int col = 0; col < 4; col++) {
+            if (letter_C[row] & (0x10 >> col)) {
+                int x = startX + col;
+                int y = startY + row;
+                int pixelIndex;
+                if(y % 2 == 0) {
+                    pixelIndex = y * 16 + (15 - x);
+                }
+                else {
+                    pixelIndex = y * 16 + x;
+                }
+                panel2.setPixelColor(pixelIndex, color);
+            }
+        }
+    }
+}
 
 void percentPut(uint32_t color) {
     int startX = 12;
@@ -231,6 +285,26 @@ void percentPut(uint32_t color) {
                     pixelIndex = y * 16 + x;
                 }
                 panel1.setPixelColor(pixelIndex, color);
+            }
+        }
+    }
+}
+void percentPut2(uint32_t color) {
+    int startX = 12;
+    int startY = 9;
+    for (int row = 0; row < 6; row++) {
+        for (int col = 0; col < 4; col++) {
+            if (percentSymbol[row] & (0x10 >> col)) {
+                int x = startX + col;
+                int y = startY + row;
+                int pixelIndex;
+                if(y % 2 == 0) {
+                    pixelIndex = y * 16 + (15 - x);
+                }
+                else {
+                    pixelIndex = y * 16 + x;
+                }
+                panel2.setPixelColor(pixelIndex, color);
             }
         }
     }
@@ -278,7 +352,49 @@ int tempColor(int temp) {
     }
     color = panel1.Color(r, g, b);
     return color;
-    // return panel1.Color(255, 0, 0); // Always red, just for test
+}
+int tempColor2(int temp) {
+    uint32_t color = panel2.Color(255,255,255);
+    int r = 255;
+    int g = 102;
+    int b = 153;
+    if (temp <= -10) {
+        r = 127;
+        g = 0;
+        b = 255;
+    }
+    else if (-10 < temp && temp <= -4) {
+        r = 127 + (temp + 10) * (-127 / 6);
+        g = 0;
+        b = 255;
+    }
+    else if (-4 < temp && temp <= 8) {
+        r = 0;
+        g = (temp + 4) * (255 / 12);
+        b = 255;
+    }
+    else if (8 < temp && temp <= 20) {
+        r = 0;
+        g = 255;
+        b = 255 + (temp - 8) * (-255 / 12);
+    }
+    else if (20 < temp && temp <= 32) {
+        r = (temp - 20) * (255 / 12);
+        g = 255;
+        b = 0;
+    }
+    else if (32 < temp && temp <= 44) {
+        r = 255;
+        g = 255 + (temp - 32) * (-255 / 12);
+        b = 0;
+    }
+    else {
+        r = 255;
+        g = 0;
+        b = 0;
+    }
+    color = panel2.Color(r, g, b);
+    return color;
 }
 
 int humColor(int hum) {
@@ -310,6 +426,35 @@ int humColor(int hum) {
     return color;
     // return panel1.Color(255, 0, 0); // Always red, just for test
 }
+int humColor2(int hum) {
+    uint32_t color = panel2.Color(255,255,255);
+    int r = 255;
+    int g = 102;
+    int b = 253;
+    if (hum == 0) {
+        r = 255;
+        g = 255;
+        b = 0;
+    }
+    else if (hum > 0 && hum <= 33) {
+        r = 255 - (hum / 33) * 255;
+        g = 255;
+        b  = 0;
+    }
+    else if (hum > 33 && hum <= 66) {
+        r = 0;
+        g = 255;
+        b = 0 + (hum - 33) * 255 / 33;
+    }
+    else {
+        r = 0;
+        g = 255 - (255 * (hum - 66) / 34);
+        b = 255;
+    }
+    color = panel1.Color(r, g, b);
+    return color;
+    // return panel2.Color(255, 0, 0); // Always red, just for test
+}
 
 void gassafeDisplay() {
     for (int row = 0; row < 16; row++) {
@@ -319,6 +464,19 @@ void gassafeDisplay() {
             case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(0, 255, 255)); break;
             case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(0, 204, 0)); break;
             case 4: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(51, 255, 51)); break;
+            default: break;
+            }
+        }
+    }
+}
+void gassafeDisplay2() {
+    for (int row = 0; row < 16; row++) {
+        for (int col = 0; col < 16; col++) {
+            switch (gasSafe[row][col]) {
+            case 1: panel2.setPixelColor(xyToIndex(col, row), panel2.Color(0, 128, 255)); break;
+            case 2: panel2.setPixelColor(xyToIndex(col, row), panel2.Color(0, 255, 255)); break;
+            case 3: panel2.setPixelColor(xyToIndex(col, row), panel2.Color(0, 204, 0)); break;
+            case 4: panel2.setPixelColor(xyToIndex(col, row), panel2.Color(51, 255, 51)); break;
             default: break;
             }
         }
@@ -339,6 +497,20 @@ void gasalertDisplay() {
         }
     } 
 }
+void gasalertDisplay2() {
+    for (int row = 0; row < 16; row++) {
+        for (int col = 0; col < 16; col++) {
+            switch (gasAlert[row][col]) {
+            case 1: panel2.setPixelColor(xyToIndex(col, row), panel2.Color(0, 128, 255)); break;
+            case 2: panel2.setPixelColor(xyToIndex(col, row), panel2.Color(0, 255, 255)); break;
+            case 3: panel2.setPixelColor(xyToIndex(col, row), panel2.Color(0, 204, 0)); break;
+            case 4: panel2.setPixelColor(xyToIndex(col, row), panel2.Color(51, 255, 51)); break;
+            case 5: panel2.setPixelColor(xyToIndex(col, row), panel2.Color(255, 0, 0)); break;
+            default: break;
+            }
+        }
+    } 
+}
 
 
 void displayGlowstone() {
@@ -348,8 +520,9 @@ void displayGlowstone() {
                 case 1: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(251, 218, 115)); break; 
                         panel2.setPixelColor(xyToIndex(col, row), panel2.Color(251, 218, 115)); break; 
                 case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(204, 134, 83)); break;
-                        panel1.setPixelColor(xyToIndex(col, row), panel2.Color(204, 134, 83)); break;
-                case 3: panel2.setPixelColor(xyToIndex(col, row), panel1.Color(133, 79, 41)); break;
+                        panel2.setPixelColor(xyToIndex(col, row), panel2.Color(204, 134, 83)); break;
+                case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(133, 79, 41)); break;
+                        panel2.setPixelColor(xyToIndex(col, row), panel2.Color(133, 79, 41)); break;
                 case 4: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(112, 69, 34)); break;
                         panel2.setPixelColor(xyToIndex(col, row), panel2.Color(112, 69, 34)); break;
                 case 5: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 255, 255)); break;
