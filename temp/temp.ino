@@ -10,6 +10,9 @@
 #define sensorPin   10
 #define touchPin    2
 #define numModes    4
+
+int buzzerPin = 8;
+
 bool lastTouchState = LOW;
 
 dht11 DHT11;
@@ -185,6 +188,8 @@ void displaySwitchMode(int mode) {
                 gassafeDisplay();
             }
             else {
+                pinMode(8,OUTPUT);
+                tone(8,1000);
                 gasalertDisplay();
             }
         break;
