@@ -3,7 +3,7 @@
 
 #define NUM_LEDS 256
 
-#define LED_PIN 11
+#define LED_PIN 12
 
 #define DHT11PIN 4
 
