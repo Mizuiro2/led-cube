@@ -1,3 +1,5 @@
+#include <dht11.h>
+
 #include <Adafruit_NeoPixel.h>
 #include <dht11.h>
 #include <Wire.h>
@@ -7,7 +9,8 @@
 #define NUM_LEDS    256
 #define LED_PIN1    12
 #define LED_PIN2    11
-#define DHT11PIN    4
+
+#define DHT11_PIN    4
 #define sensorPin   A0
 #define touchPin    2
 #define numModes    4
@@ -20,6 +23,7 @@ dht11 DHT11;
 Adafruit_NeoPixel panel1(NUM_LEDS, LED_PIN1, NEO_RGB + NEO_KHZ800);
 Adafruit_NeoPixel panel2(NUM_LEDS, LED_PIN2, NEO_RGB + NEO_KHZ800);
 
+// below are image style printing models
 const uint8_t numbers[][7] = {
     {0x1F, 0x11, 0x11, 0x11, 0x11, 0x11, 0x1F}, // 0
     {0x04, 0x0C, 0x04, 0x04, 0x04, 0x04, 0x0E}, // 1
@@ -112,7 +116,6 @@ const uint8_t gasAlert[16][16] = {
     {0, 0, 0, 3, 4, 0, 0, 4, 3, 0, 0, 0, 4, 0, 0, 0},   // line 15
     {0, 3, 3, 0, 4, 0, 0, 4, 3, 0, 0, 0, 4, 4, 4, 4},   // line 16
 };
-
 const uint8_t glowstone[16][16] = {
     {1, 2, 3, 4, 4, 2, 1, 2, 2, 4, 3, 5, 6, 2, 3, 7},
     {6, 1, 2, 4, 10, 10, 3, 2, 4, 7, 2, 6, 6, 1, 2, 4},
@@ -132,53 +135,20 @@ const uint8_t glowstone[16][16] = {
     {7, 4, 1, 2, 3, 10, 6, 1, 3, 10, 10, 4, 4, 4, 10, 7}
 };
 
-
 void displaySwitchMode(int mode) {
-    panel1.clear();
-    panel2.clear();
-
-    int temp = DHT11.temperature;
-    int hum = DHT11.humidity;
-    int gas = readMQ2();
-    switch(mode) {
-        case 1:
-            numberPut(0, 0, temp, tempColor(temp));
-            celsiusPut(tempColor(temp));
-            numberPut(0, 9, hum, humColor(hum));
-            percentPut(humColor(hum));
-        break;
-
-        case 2:
-            if (gas < 65) {
-                gassafeDisplay();
-            }
-            else {
-                gasalertDisplay();
-            }
-        break;
-
-        case 3:
-            displayGlowstone();
-        break;
-            
-        case 4:
-            allOn();
-        break;
-
-        default:
-        switchError();
-    }
-
-    panel1.show();
-    panel2.show();
+    
 }
 
 void setup() {
-    pinMode(touchPin, INPUT);
-    panel1.begin();
-    panel2.begin();
     Serial.begin(9600);
+    Serial.print('This is the beginning of test via serial output.');
+
+    panel1.begin();
+    panel1.show();
+    panel2.begin();
+    panel2.show();
 }
+
 
 void numberPut(int startX, int startY, int num, uint32_t color) {
     int tens = num / 10;
@@ -427,13 +397,8 @@ void switchError() {
     }
 }
 void allOn() {
-    for (int i = 0; i < NUM_LEDS; i++) {
-        panel1.setPixelColor(i, panel1.Color(255, 255, 255)); // full white
-        panel2.setPixelColor(i, panel2.Color(255, 255, 255)); // full white
-        panel1.show();
-        panel2.show();
-    }
-    delay(1000);
+    panel1.fill(0, 127, 127);
+    panel2.fill(127, 0, 127);
 }
 
 int readMQ2() {
@@ -442,7 +407,9 @@ int readMQ2() {
   return outputValue;             // Return analog moisture value
 }
 
+
 void loop() {
+
     bool touchState = digitalRead(touchPin);
     if (touchState == HIGH && lastTouchState == LOW) {
         currentMode++;
@@ -455,8 +422,7 @@ void loop() {
         displaySwitchMode(currentMode);
     }
     lastTouchState = touchState;
-    panel1.show();
-    
+
     /* below is code for testing and monitoring*/
     Serial.println();
     int chk = DHT11.read(DHT11PIN);
@@ -468,5 +434,4 @@ void loop() {
     Serial.println(readMQ2());
     //  not needed for actual project
 
-    delay(3000);
 }
