@@ -208,7 +208,7 @@ void setup() {
     panel1.begin();
     panel1.setBrightness(80);
     panel1.show(); // Initialize with all LEDs off
-    Serial.begin(115200);
+    Serial.begin(9600);
 
 }
 
@@ -510,12 +510,12 @@ void loop() {
     panel1.show();
     
     /* below is code for testing and monitoring*/
-    // Serial.println();
+    Serial.println();
     int chk = DHT11.read(DHT11PIN);
-    // Serial.print("Humidity (%): ");
-    // Serial.println((float)DHT11.humidity, 2);
-    // Serial.print("Temperature  (C): ");
-    // Serial.println((float)DHT11.temperature, 2);
+    Serial.print("Humidity (%): ");
+    Serial.println((float)DHT11.humidity, 2);
+    Serial.print("Temperature  (C): ");
+    Serial.println((float)DHT11.temperature, 2);
     //  Serial.print("Analog output: ");
     //  Serial.println(readMQ2());
     //  not needed for actual project
