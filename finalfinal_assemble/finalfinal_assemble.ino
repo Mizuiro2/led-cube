@@ -136,6 +136,9 @@ const uint8_t glowstone[16][16] = {
 };
 
 void displaySwitchMode(int mode) {
+    int temp = DHT11.temperature;
+    int hum = DHT11.humidity;
+    int gas = readMQ2();
     switch(mode) {
         case 1:
             switchError();
@@ -172,11 +175,11 @@ void displaySwitchMode(int mode) {
         break;
 
         default:
-        allOn();
+        switchError();
     }
-    panel1.clear();
+    // panel1.clear();
     panel1.show();
-    panel2.clear();
+    // panel2.clear();
     panel2.show();
 }
 
@@ -223,6 +226,42 @@ void numberPut(int startX, int startY, int num, uint32_t color) {
                     pixelIndex = y * 16 + x;
                 }
                 panel1.setPixelColor(pixelIndex, color);
+            }
+        }
+    }
+}
+void numberPut2(int startX, int startY, int num, uint32_t color) {
+    int tens = num / 10;
+    int ones = num % 10;
+    for (int row = 0; row < 7; row++) {
+        for (int col = 0; col < 5; col++) {
+            if (numbers[tens][row] & (0x10 >> col)) {
+                int pixelIndex;
+                int y = startY + row;
+                int x = startX + col;
+                if (y % 2 == 0) {
+                    pixelIndex = y * 16 + (15 - x);
+                }
+                else {
+                    pixelIndex = y * 16 + x;
+                }
+                panel2.setPixelColor(pixelIndex, color);
+            }
+        }
+    }
+    for (int row = 0; row < 7; row++) {
+        for (int col = 0; col < 5; col++) {
+            if (numbers[ones][row] & (0x10 >> col)) {
+                int pixelIndex;
+                int y = startY + row;
+                int x = startX + 6 + col;
+                if (y % 2 == 0) {
+                    pixelIndex = y * 16 + (15 - x);
+                }
+                else {
+                    pixelIndex = y * 16 + x;
+                }
+                panel2.setPixelColor(pixelIndex, color);
             }
         }
     }
@@ -579,6 +618,7 @@ void switchError() {
                     pixelIndex = y * 16 + x;
                 }
                 panel1.setPixelColor(pixelIndex, panel1.Color(255, 0, 0));
+                panel2.setPixelColor(pixelIndex, panel2.Color(255, 0, 0));
             }
         }
     }
