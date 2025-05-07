@@ -2,23 +2,23 @@
 #include <dht11.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
-#include <Adafruit_ADXL345_U.h>
 
 #define NUM_LEDS    256
-#define LED_PIN1    11
-#define LED_PIN2    12
+#define LED_PIN1    13
+
 #define DHT11PIN    4
-#define sensorPin   A0
+#define sensorPin   10
+#define touchPin    2
+#define numModes    4
+bool lastTouchState = LOW;
 
 dht11 DHT11;
 
 
-Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified();
+Adafruit_NeoPixel panel1(NUM_LEDS, LED_PIN1, NEO_GRB + NEO_KHZ800);
 
-Adafruit_NeoPixel panel1(NUM_LEDS, LED_PIN1, NEO_RGB + NEO_KHZ800);
-Adafruit_NeoPixel panel2(NUM_LEDS, LED_PIN2, NEO_RGB + NEO_KHZ800);
 
-const uint8_t numbers[][7] = {
+const uint8_t numbers[10][7] = {
     {0x1F, 0x11, 0x11, 0x11, 0x11, 0x11, 0x1F}, // 0
     {0x04, 0x0C, 0x04, 0x04, 0x04, 0x04, 0x0E}, // 1
     {0x1F, 0x01, 0x01, 0x1F, 0x10, 0x10, 0x1F}, // 2
@@ -46,7 +46,7 @@ const uint8_t percentSymbol[6] = {
     0x16,   // 00010110
     0x06    // 00000110
 };
-const uint8_t letters[][7] = {
+const uint8_t letters[26][7] = {
     {0x0E, 0x11, 0x11, 0x1F, 0x11, 0x11, 0x11}, // A
     {0x1E, 0x11, 0x11, 0x1E, 0x11, 0x11, 0x1E}, // B
     {0x0E, 0x11, 0x10, 0x10, 0x10, 0x11, 0x0E}, // C
@@ -111,7 +111,23 @@ const uint8_t gasAlert[16][16] = {
     {0, 3, 3, 0, 4, 0, 0, 4, 3, 0, 0, 0, 4, 4, 4, 4},   // line 16
 };
 
-const uint8_t glowstone[16][16] = {
+const uint8_t glowstone[32][16] = {
+    {1, 2, 3, 4, 4, 2, 1, 2, 2, 4, 3, 5, 6, 2, 3, 7},
+    {6, 1, 2, 4, 10, 10, 3, 2, 4, 7, 2, 6, 6, 1, 2, 4},
+    {3, 2, 4, 7, 3, 3, 4, 10, 10, 7, 10, 4, 1, 2, 4, 7},
+    {7, 4, 7, 2, 1, 2, 3, 4, 10, 5, 1, 10, 4, 4, 7, 7},
+    {4, 10, 2, 5, 6, 6, 2, 4, 1, 6, 6, 2, 10, 7, 6, 1},
+    {4, 3, 1, 6, 6, 1, 1, 3, 2, 1, 2, 3, 7, 6, 5, 1},
+    {10, 4, 4, 2, 1, 1, 2, 4, 3, 4, 10, 7, 3, 2, 1, 4},
+    {1, 7, 10, 4, 3, 2, 4, 10, 4, 7, 1, 3, 7, 3, 4, 2},
+    {6, 1, 3, 7, 4, 3, 10, 7, 3, 5, 6, 1, 4, 10, 1, 5},
+    {6, 2, 2, 3, 5, 1, 2, 7, 2, 6, 6, 2, 4, 7, 7, 1},
+    {2, 3, 4, 2, 1, 2, 3, 3, 4, 2, 1, 3, 4, 7, 7, 1},
+    {4, 4, 7, 3, 4, 7, 1, 6, 7, 4, 2, 4, 10, 3, 7, 10},
+    {10, 7, 1, 2, 4, 10, 6, 5, 1, 2, 4, 7, 6, 1, 3, 4},
+    {7, 1, 5, 6, 6, 4, 7, 1, 2, 3, 10, 1, 5, 6, 2, 4},
+    {7, 2, 6, 1, 2, 3, 4, 10, 4, 4, 7, 3, 2, 3, 4, 10},
+    {7, 4, 1, 2, 3, 10, 6, 1, 3, 10, 10, 4, 4, 4, 10, 7},
     {1, 2, 3, 4, 4, 2, 1, 2, 2, 4, 3, 5, 6, 2, 3, 7},
     {6, 1, 2, 4, 10, 10, 3, 2, 4, 7, 2, 6, 6, 1, 2, 4},
     {3, 2, 4, 7, 3, 3, 4, 10, 10, 7, 10, 4, 1, 2, 4, 7},
@@ -132,7 +148,7 @@ const uint8_t glowstone[16][16] = {
 
 
 int detectMode() {
-    int mode = 3;
+    int mode = 0;
     if (0) {
         mode = 1;
     }
@@ -150,7 +166,7 @@ int detectMode() {
 
 void displaySwitchMode(int mode) {
     panel1.clear();
-    panel2.clear();
+
 
     int temp = DHT11.temperature;
     int hum = DHT11.humidity;
@@ -161,10 +177,11 @@ void displaySwitchMode(int mode) {
             celsiusPut(tempColor(temp));
             numberPut(0, 9, hum, humColor(hum));
             percentPut(humColor(hum));
+
         break;
 
         case 2:
-            if (gas < 65) {
+            if (gas > 65) {
                 gassafeDisplay();
             }
             else {
@@ -185,19 +202,14 @@ void displaySwitchMode(int mode) {
     }
 
     panel1.show();
-    panel2.show();
 }
 
 void setup() {
     panel1.begin();
-    panel2.begin();
-    Serial.begin(9600);
+    panel1.setBrightness(80);
+    panel1.show(); // Initialize with all LEDs off
+    Serial.begin(115200);
 
-    if(!accel.begin())
-    {
-        // Serial.println("No ADXL345 sensor detected.");
-        // while(1);
-    }
 }
 
 void numberPut(int startX, int startY, int num, uint32_t color) {
@@ -237,6 +249,7 @@ void numberPut(int startX, int startY, int num, uint32_t color) {
     }
 }
 
+
 void celsiusPut(uint32_t color) {
     int startX = 12;
     int startY = 0;
@@ -258,6 +271,7 @@ void celsiusPut(uint32_t color) {
     }
 }
 
+
 void percentPut(uint32_t color) {
     int startX = 12;
     int startY = 9;
@@ -278,6 +292,7 @@ void percentPut(uint32_t color) {
         }
     }
 }
+
 
 int tempColor(int temp) {
     uint32_t color = panel1.Color(255,255,255);
@@ -324,6 +339,7 @@ int tempColor(int temp) {
     // return panel1.Color(255, 0, 0); // Always red, just for test
 }
 
+
 int humColor(int hum) {
     uint32_t color = panel1.Color(255,255,255);
     int r = 255;
@@ -354,6 +370,7 @@ int humColor(int hum) {
     // return panel1.Color(255, 0, 0); // Always red, just for test
 }
 
+
 void gassafeDisplay() {
     for (int row = 0; row < 16; row++) {
         for (int col = 0; col < 16; col++) {
@@ -367,6 +384,7 @@ void gassafeDisplay() {
         }
     }
 }
+
 
 void gasalertDisplay() {
     for (int row = 0; row < 16; row++) {
@@ -388,14 +406,45 @@ void displayGlowstone() {
     for (int row = 0; row < 16; row++) {
         for (int col = 0; col < 16; col++) {
             switch (glowstone[row][col]) {
-                case 1: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(251, 218, 115)); break; 
-                case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(204, 134, 83)); break;
-                case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(133, 79, 41)); break;
-                case 4: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(112, 69, 34)); break;
-                case 5: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 255, 255)); break;
-                case 6: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 240, 217)); break;
-                case 7: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(136, 104, 57)); break;
-                case 10: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(116, 78, 39)); break;
+                case 1: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(251, 218, 115));
+                break; 
+                case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(204, 134, 83));
+                break;
+                case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(133, 79, 41));
+                break;
+                case 4: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(112, 69, 34));
+                break;
+                case 5: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 255, 255));
+                break;
+                case 6: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 240, 217));
+                break;
+                case 7: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(136, 104, 57));
+                break;
+                case 10: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(116, 78, 39));
+                break;
+                default: break;
+            }
+        }
+    }
+        for (int row = 16; row < 32; row++) {
+        for (int col = 0; col < 16; col++) {
+            switch (glowstone[row - 16][col]) {
+                case 1: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(251, 218, 115));
+                break; 
+                case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(204, 134, 83));
+                break;
+                case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(133, 79, 41));
+                break;
+                case 4: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(112, 69, 34));
+                break;
+                case 5: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 255, 255));
+                break;
+                case 6: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 240, 217));
+                break;
+                case 7: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(136, 104, 57));
+                break;
+                case 10: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(116, 78, 39));
+                break;
                 default: break;
             }
         }
@@ -425,7 +474,6 @@ void switchError() {
                     pixelIndex = y * 16 + x;
                 }
                 panel1.setPixelColor(pixelIndex, panel1.Color(255, 0, 0));
-                panel2.setPixelColor(pixelIndex, panel2.Color(255, 0, 0));
             }
         }
     }
@@ -433,7 +481,7 @@ void switchError() {
         for (int col = 0; col < 5; col++) {
             if (letters[17][row] & (0x10 >> col)) {
                 int pixelIndex;
-                int y = row;
+                int y = row + 14;
                 int x = col + 6;
                 if (y % 2 == 0) {
                     pixelIndex = y * 16 + (15 - x);
@@ -447,12 +495,7 @@ void switchError() {
     }
 }
 void allOn() {
-    for (int i = 0; i < NUM_LEDS; i++) {
-        panel1.setPixelColor(i, panel1.Color(255, 255, 255)); // full white
-        panel2.setPixelColor(i, panel2.Color(255, 255, 255)); // full white
-        panel1.show();
-        panel2.show();
-    }
+    panel1.fill((0, 255, 0), 20);
     delay(1000);
 }
 
@@ -467,12 +510,12 @@ void loop() {
     panel1.show();
     
     /* below is code for testing and monitoring*/
-    Serial.println();
+    // Serial.println();
     int chk = DHT11.read(DHT11PIN);
-    Serial.print("Humidity (%): ");
-    Serial.println((float)DHT11.humidity, 2);
-    Serial.print("Temperature  (C): ");
-    Serial.println((float)DHT11.temperature, 2);
+    // Serial.print("Humidity (%): ");
+    // Serial.println((float)DHT11.humidity, 2);
+    // Serial.print("Temperature  (C): ");
+    // Serial.println((float)DHT11.temperature, 2);
     //  Serial.print("Analog output: ");
     //  Serial.println(readMQ2());
     //  not needed for actual project
