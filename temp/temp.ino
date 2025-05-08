@@ -13,14 +13,20 @@ int buzzerPin = 8;
 
 #define touchPin  2     // Pin connected to OUT of touch sensor
 int currentMode = 1;
-const int numModes = 5;
+const int numModes = 6;
 
 bool lastTouchState = LOW;
 
 int mode = 0;
 
 int period = 200;
+int refreshPeriod = 1000;
 unsigned long time_now = 0;
+int mainrefreshPeriod = 1000;
+int MQrefreshPeriod = 2000;
+
+int num = 0;
+int numR = 99;
 
 dht11 DHT11;
 
@@ -121,7 +127,7 @@ const uint8_t gasAlert[16][16] PROGMEM = {
     {0, 3, 3, 0, 4, 0, 0, 4, 3, 0, 0, 0, 4, 4, 4, 4},   // line 16
 };
 
-const uint8_t glowstone[32][16] PROGMEM = {
+const uint8_t glowstone[16][16] PROGMEM = {
     {1, 2, 3, 4, 4, 2, 1, 2, 2, 4, 3, 5, 6, 2, 3, 7},
     {6, 1, 2, 4, 10, 10, 3, 2, 4, 7, 2, 6, 6, 1, 2, 4},
     {3, 2, 4, 7, 3, 3, 4, 10, 10, 7, 10, 4, 1, 2, 4, 7},
@@ -140,23 +146,46 @@ const uint8_t glowstone[32][16] PROGMEM = {
     {7, 4, 1, 2, 3, 10, 6, 1, 3, 10, 10, 4, 4, 4, 10, 7}
 };
 
+// const uint8_t grass[16][16] PROGMEM = {
+//     {1, 1, 2, 1, 2, 2, };
+//     {};
+//     {};
+//     {};
+//     {};
+//     {};
+//     {};
+//     {};
+//     {};
+//     {};
+//     {};
+//     {};
+//     {};
+//     {};
+//     {};
+//     {};
+//     {};
+//     {};
+//     {};
+//     {}
+// };
 
-int detectMode() {
-    int mode = 2;
-    if (0) {
-        mode = 1;
-    }
-    else if (0) {
-        mode = 2;
-    }
-    else if (0) {
-        mode = 3;
-    }
-    else if (0) {
-        mode = 4;
-    }
-    return mode;
-}
+
+// int detectMode() {
+//     int mode = 2;
+//     if (0) {
+//         mode = 1;
+//     }
+//     else if (0) {
+//         mode = 2;
+//     }
+//     else if (0) {
+//         mode = 3;
+//     }
+//     else if (0) {
+//         mode = 4;
+//     }
+//     return mode;
+// }
 
 void displaySwitchMode(int mode) {
     panel1.clear();
@@ -174,15 +203,15 @@ void displaySwitchMode(int mode) {
         break;
 
         case 2:
-            if (gas < 65) {
-                noTone(8);
-                gassafeDisplay();
-            }
-            else {
-                pinMode(8,OUTPUT);
-                tone(8,1000);
-                gasalertDisplay();
-            }
+                if (gas < 65) {
+                    noTone(8);
+                    gassafeDisplay();
+                }
+                else {
+                    pinMode(8,OUTPUT);
+                    tone(8,1000);
+                    gasalertDisplay();
+                }
         break;
 
         case 3:
@@ -191,11 +220,16 @@ void displaySwitchMode(int mode) {
         break;
             
         case 4:
-            allOn();
+            numberLoop();
         break;
-
+        case 5:
+            numberLoopR();
+            num = 0;
+        break;
         default:
         switchError();
+        numR = 99;
+        
     }
 
     panel1.show();
@@ -214,35 +248,112 @@ void setup() {
 void numberPut(int startX, int startY, int num, uint32_t color) {
     int tens = num / 10;
     int ones = num % 10;
-    for (int row = 0; row < 7; row++) {
-        for (int col = 0; col < 5; col++) {
-            if (pgm_read_byte(&(numbers[tens][row])) & (0x10 >> col)) {
-                int pixelIndex;
-                int y = startY + row;
-                int x = startX + col;
-                if (y % 2 == 0) {
-                    pixelIndex = y * 16 + (15 - x);
+    if (num > 9) {
+        for (int row = 0; row < 7; row++) {
+            for (int col = 0; col < 5; col++) {
+                if (pgm_read_byte(&(numbers[tens][row])) & (0x10 >> col)) {
+                    int pixelIndex;
+                    int y = startY + row;
+                    int x = startX + col;
+                    if (y % 2 == 0) {
+                        pixelIndex = y * 16 + (15 - x);
+                    }
+                    else {
+                        pixelIndex = y * 16 + x;
+                    }
+                    panel1.setPixelColor(pixelIndex, color);
                 }
-                else {
-                    pixelIndex = y * 16 + x;
+            }
+        }
+        for (int row = 0; row < 7; row++) {
+            for (int col = 0; col < 5; col++) {
+                if (pgm_read_byte(&(numbers[ones][row])) & (0x10 >> col)) {
+                    int pixelIndex;
+                    int y = startY + row;
+                    int x = startX + 6 + col;
+                    if (y % 2 == 0) {
+                        pixelIndex = y * 16 + (15 - x);
+                    }
+                    else {
+                        pixelIndex = y * 16 + x;
+                    }
+                    panel1.setPixelColor(pixelIndex, color);
                 }
-                panel1.setPixelColor(pixelIndex, color);
             }
         }
     }
-    for (int row = 0; row < 7; row++) {
-        for (int col = 0; col < 5; col++) {
-            if (pgm_read_byte(&(numbers[ones][row])) & (0x10 >> col)) {
-                int pixelIndex;
-                int y = startY + row;
-                int x = startX + 6 + col;
-                if (y % 2 == 0) {
-                    pixelIndex = y * 16 + (15 - x);
+    else {
+        for (int row = 0; row < 7; row++) {
+            for (int col = 0; col < 5; col++) {
+                if (pgm_read_byte(&(numbers[ones][row])) & (0x10 >> col)) {
+                    int pixelIndex;
+                    int y = startY + row;
+                    int x = startX + 3 + col;
+                    if (y % 2 == 0) {
+                        pixelIndex = y * 16 + (15 - x);
+                    }
+                    else {
+                        pixelIndex = y * 16 + x;
+                    }
+                    panel1.setPixelColor(pixelIndex, color);
                 }
-                else {
-                    pixelIndex = y * 16 + x;
+            }
+        }
+    }
+}
+
+void numberPut2(int startX, int startY, int num, uint32_t color) {
+    int tens = num / 10;
+    int ones = num % 10;
+    if (num > 9) {
+        for (int row = 0; row < 7; row++) {
+            for (int col = 0; col < 5; col++) {
+                if (pgm_read_byte(&(numbers[tens][row])) & (0x10 >> col)) {
+                    int pixelIndex;
+                    int y = startY + row;
+                    int x = startX + col;
+                    if (y % 2 == 0) {
+                        pixelIndex = y * 16 + (15 - x);
+                    }
+                    else {
+                        pixelIndex = y * 16 + x;
+                    }
+                    panel1.setPixelColor(pixelIndex, color);
                 }
-                panel1.setPixelColor(pixelIndex, color);
+            }
+        }
+        for (int row = 0; row < 7; row++) {
+            for (int col = 0; col < 5; col++) {
+                if (pgm_read_byte(&(numbers[ones][row])) & (0x10 >> col)) {
+                    int pixelIndex;
+                    int y = startY + row;
+                    int x = startX + 7 + col;
+                    if (y % 2 == 0) {
+                        pixelIndex = y * 16 + (15 - x);
+                    }
+                    else {
+                        pixelIndex = y * 16 + x;
+                    }
+                    panel1.setPixelColor(pixelIndex, color);
+                }
+            }
+        }
+    }
+    else {
+        for (int row = 0; row < 7; row++) {
+            for (int col = 0; col < 5; col++) {
+                if (pgm_read_byte(&(numbers[ones][row])) & (0x10 >> col)) {
+                    int pixelIndex;
+                    int y = startY + row;
+                    int x = startX + 3 + col;
+                    if (y % 2 == 0) {
+                        pixelIndex = y * 16 + (15 - x);
+                    }
+                    else {
+                        pixelIndex = y * 16 + x;
+                    }
+                    panel1.setPixelColor(pixelIndex, color);
+                }
             }
         }
     }
@@ -470,15 +581,41 @@ void switchError() {
         }
     }
 }
+
 void allOn() {
     panel1.fill((0, 127, 0), 20);
     delay(1000);
 }
 
+void numberLoop() {
+    if (millis() - time_now >= refreshPeriod) {
+        time_now = millis();  // update time
+        numberPut2(2, 4, num, panel1.Color(255, 0, 0));
+        num++;
+    if (num >= 100) num = 0;
+  }
+}
+void numberLoopR() {
+    if (millis() - time_now >= refreshPeriod) {
+        time_now = millis();  // update time
+        numberPut2(2, 4, numR, panel1.Color(255, 0, 0));
+        numR--;
+    if (numR <= 0) numR = 99;
+  }
+}
+
+// int blinking() {
+//     uint32_t color
+//     retrun color;   
+// }
+
 int readMQ2() {
-  unsigned int sensorValue = analogRead(sensorPin);  // Read the analog value from sensor
-  unsigned int outputValue = map(sensorValue, 0, 1023, 0, 255); // map the 10-bit data to 8-bit data
-  return outputValue;             // Return analog moisture value
+    if (millis() - time_now >= MQrefreshPeriod) {
+        time_now = millis();
+        unsigned int sensorValue = analogRead(sensorPin);  // Read the analog value from sensor
+        unsigned int outputValue = map(sensorValue, 0, 1023, 0, 255); // map the 10-bit data to 8-bit data
+        return outputValue;             // Return analog moisture value
+    }
 }
 
 void loop() {
@@ -496,23 +633,25 @@ void loop() {
 
         time_now += period;
 
-        // delay(200); // Simple debounce
+        delay(200); // Simple debounce
     }
     lastTouchState = touchState;
-
-    displaySwitchMode(mode);
-    panel1.show();
+    if (millis() - time_now >= mainrefreshPeriod) {
+        displaySwitchMode(mode);
+        panel1.show();
+    }
+    
     
     /* below is code for testing and monitoring*/
-    Serial.println();
+    // Serial.println();
     int chk = DHT11.read(DHT11PIN);
-    Serial.print("Humidity (%): ");
-    Serial.println((float)DHT11.humidity, 2);
-    Serial.print("Temperature  (C): ");
-    Serial.println((float)DHT11.temperature, 2);
-    Serial.print("Analog output: ");
-    Serial.println(readMQ2());
+    // Serial.print("Humidity (%): ");
+    // Serial.println((float)DHT11.humidity, 2);
+    // Serial.print("Temperature  (C): ");
+    // Serial.println((float)DHT11.temperature, 2);
+    // Serial.print("Analog output: ");
+    // Serial.println(readMQ2());
     //  not needed for actual project
 
-    delay(500);
+    // delay(1000);
 }
