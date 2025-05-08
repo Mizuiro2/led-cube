@@ -8,13 +8,19 @@
 
 #define DHT11PIN    4
 #define sensorPin   10
-#define touchPin    2
-
-#define numModes    4
 
 int buzzerPin = 8;
 
+#define touchPin  2     // Pin connected to OUT of touch sensor
+int currentMode = 1;
+const int numModes = 5;
+
 bool lastTouchState = LOW;
+
+int mode = 0;
+
+int period = 200;
+unsigned long time_now = 0;
 
 dht11 DHT11;
 
@@ -22,7 +28,7 @@ dht11 DHT11;
 Adafruit_NeoPixel panel1(NUM_LEDS, LED_PIN1, NEO_GRB + NEO_KHZ800);
 
 
-const uint8_t numbers[10][7] = {
+const uint8_t numbers [10][7] PROGMEM = {
     {0x1F, 0x11, 0x11, 0x11, 0x11, 0x11, 0x1F}, // 0
     {0x04, 0x0C, 0x04, 0x04, 0x04, 0x04, 0x0E}, // 1
     {0x1F, 0x01, 0x01, 0x1F, 0x10, 0x10, 0x1F}, // 2
@@ -34,7 +40,7 @@ const uint8_t numbers[10][7] = {
     {0x1F, 0x11, 0x11, 0x1F, 0x11, 0x11, 0x1F}, // 8
     {0x1F, 0x11, 0x11, 0x1F, 0x01, 0x01, 0x1F}  // 9
 };
-const uint8_t letter_C[6] = {
+const uint8_t  letter_C[6] PROGMEM = {
     0x1E,   // 00011110
     0x10,   // 00010000
     0x10,   // 00010000
@@ -42,7 +48,7 @@ const uint8_t letter_C[6] = {
     0x10,   // 00010000
     0x1E    // 00011110
 };
-const uint8_t percentSymbol[6] = {
+const uint8_t percentSymbol[6] PROGMEM = {
     0x18,   // 00011000
     0x1A,   // 00011010
     0x04,   // 00000100
@@ -50,7 +56,7 @@ const uint8_t percentSymbol[6] = {
     0x16,   // 00010110
     0x06    // 00000110
 };
-const uint8_t letters[26][7] = {
+const uint8_t letters[26][7] PROGMEM = {
     {0x0E, 0x11, 0x11, 0x1F, 0x11, 0x11, 0x11}, // A
     {0x1E, 0x11, 0x11, 0x1E, 0x11, 0x11, 0x1E}, // B
     {0x0E, 0x11, 0x10, 0x10, 0x10, 0x11, 0x0E}, // C
@@ -78,7 +84,7 @@ const uint8_t letters[26][7] = {
     {0x11, 0x11, 0x0A, 0x04, 0x04, 0x04, 0x04}, // Y
     {0x1F, 0x01, 0x02, 0x04, 0x08, 0x10, 0x1F}  // Z
 };
-const uint8_t gasSafe[16][16] = {
+const uint8_t gasSafe[16][16] PROGMEM = {
     {0, 1, 1, 0, 0, 2, 2, 0, 0, 1, 1, 0, 0, 0, 0, 0},   // line 1
     {1, 0, 0, 0, 2, 0, 0, 2, 1, 0, 0, 0, 0, 2, 0, 0},   // line 2
     {1, 0, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0},   // line 3
@@ -96,7 +102,7 @@ const uint8_t gasSafe[16][16] = {
     {0, 0, 0, 3, 4, 0, 0, 4, 3, 0, 0, 0, 4, 0, 0, 0},   // line 15
     {0, 3, 3, 0, 4, 0, 0, 4, 3, 0, 0, 0, 4, 4, 4, 4},   // line 16
 };
-const uint8_t gasAlert[16][16] = {
+const uint8_t gasAlert[16][16] PROGMEM = {
     {0, 1, 1, 0, 0, 2, 2, 0, 0, 1, 1, 0, 0, 0, 0, 0},   // line 1
     {1, 0, 0, 0, 2, 0, 0, 2, 1, 0, 0, 0, 0, 2, 0, 0},   // line 2
     {1, 0, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0},   // line 3
@@ -115,23 +121,7 @@ const uint8_t gasAlert[16][16] = {
     {0, 3, 3, 0, 4, 0, 0, 4, 3, 0, 0, 0, 4, 4, 4, 4},   // line 16
 };
 
-const uint8_t glowstone[32][16] = {
-    {1, 2, 3, 4, 4, 2, 1, 2, 2, 4, 3, 5, 6, 2, 3, 7},
-    {6, 1, 2, 4, 10, 10, 3, 2, 4, 7, 2, 6, 6, 1, 2, 4},
-    {3, 2, 4, 7, 3, 3, 4, 10, 10, 7, 10, 4, 1, 2, 4, 7},
-    {7, 4, 7, 2, 1, 2, 3, 4, 10, 5, 1, 10, 4, 4, 7, 7},
-    {4, 10, 2, 5, 6, 6, 2, 4, 1, 6, 6, 2, 10, 7, 6, 1},
-    {4, 3, 1, 6, 6, 1, 1, 3, 2, 1, 2, 3, 7, 6, 5, 1},
-    {10, 4, 4, 2, 1, 1, 2, 4, 3, 4, 10, 7, 3, 2, 1, 4},
-    {1, 7, 10, 4, 3, 2, 4, 10, 4, 7, 1, 3, 7, 3, 4, 2},
-    {6, 1, 3, 7, 4, 3, 10, 7, 3, 5, 6, 1, 4, 10, 1, 5},
-    {6, 2, 2, 3, 5, 1, 2, 7, 2, 6, 6, 2, 4, 7, 7, 1},
-    {2, 3, 4, 2, 1, 2, 3, 3, 4, 2, 1, 3, 4, 7, 7, 1},
-    {4, 4, 7, 3, 4, 7, 1, 6, 7, 4, 2, 4, 10, 3, 7, 10},
-    {10, 7, 1, 2, 4, 10, 6, 5, 1, 2, 4, 7, 6, 1, 3, 4},
-    {7, 1, 5, 6, 6, 4, 7, 1, 2, 3, 10, 1, 5, 6, 2, 4},
-    {7, 2, 6, 1, 2, 3, 4, 10, 4, 4, 7, 3, 2, 3, 4, 10},
-    {7, 4, 1, 2, 3, 10, 6, 1, 3, 10, 10, 4, 4, 4, 10, 7},
+const uint8_t glowstone[32][16] PROGMEM = {
     {1, 2, 3, 4, 4, 2, 1, 2, 2, 4, 3, 5, 6, 2, 3, 7},
     {6, 1, 2, 4, 10, 10, 3, 2, 4, 7, 2, 6, 6, 1, 2, 4},
     {3, 2, 4, 7, 3, 3, 4, 10, 10, 7, 10, 4, 1, 2, 4, 7},
@@ -152,7 +142,7 @@ const uint8_t glowstone[32][16] = {
 
 
 int detectMode() {
-    int mode = 1;
+    int mode = 2;
     if (0) {
         mode = 1;
     }
@@ -171,7 +161,6 @@ int detectMode() {
 void displaySwitchMode(int mode) {
     panel1.clear();
 
-
     int temp = DHT11.temperature;
     int hum = DHT11.humidity;
     int gas = readMQ2();
@@ -185,7 +174,8 @@ void displaySwitchMode(int mode) {
         break;
 
         case 2:
-            if (gas > 65) {
+            if (gas < 65) {
+                noTone(8);
                 gassafeDisplay();
             }
             else {
@@ -196,6 +186,7 @@ void displaySwitchMode(int mode) {
         break;
 
         case 3:
+            noTone(8);
             displayGlowstone();
         break;
             
@@ -211,6 +202,8 @@ void displaySwitchMode(int mode) {
 }
 
 void setup() {
+    pinMode(touchPin, INPUT);
+
     panel1.begin();
     panel1.setBrightness(80);
     panel1.show(); // Initialize with all LEDs off
@@ -223,7 +216,7 @@ void numberPut(int startX, int startY, int num, uint32_t color) {
     int ones = num % 10;
     for (int row = 0; row < 7; row++) {
         for (int col = 0; col < 5; col++) {
-            if (numbers[tens][row] & (0x10 >> col)) {
+            if (pgm_read_byte(&(numbers[tens][row])) & (0x10 >> col)) {
                 int pixelIndex;
                 int y = startY + row;
                 int x = startX + col;
@@ -239,7 +232,7 @@ void numberPut(int startX, int startY, int num, uint32_t color) {
     }
     for (int row = 0; row < 7; row++) {
         for (int col = 0; col < 5; col++) {
-            if (numbers[ones][row] & (0x10 >> col)) {
+            if (pgm_read_byte(&(numbers[ones][row])) & (0x10 >> col)) {
                 int pixelIndex;
                 int y = startY + row;
                 int x = startX + 6 + col;
@@ -261,7 +254,7 @@ void celsiusPut(uint32_t color) {
     int startY = 0;
     for (int row = 0; row < 6; row++) {
         for (int col = 0; col < 4; col++) {
-            if (letter_C[row] & (0x10 >> col)) {
+            if (pgm_read_byte(&(letter_C[row])) & (0x10 >> col)) {
                 int x = startX + col;
                 int y = startY + row;
                 int pixelIndex;
@@ -283,7 +276,7 @@ void percentPut(uint32_t color) {
     int startY = 9;
     for (int row = 0; row < 6; row++) {
         for (int col = 0; col < 4; col++) {
-            if (percentSymbol[row] & (0x10 >> col)) {
+            if (pgm_read_byte(&(percentSymbol[row])) & (0x10 >> col)) {
                 int x = startX + col;
                 int y = startY + row;
                 int pixelIndex;
@@ -380,7 +373,7 @@ int humColor(int hum) {
 void gassafeDisplay() {
     for (int row = 0; row < 16; row++) {
         for (int col = 0; col < 16; col++) {
-            switch (gasSafe[row][col]) {
+            switch (pgm_read_byte(&(gasSafe[row][col]))) {
             case 1: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(0, 128, 255)); break;
             case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(0, 255, 255)); break;
             case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(0, 204, 0)); break;
@@ -395,7 +388,7 @@ void gassafeDisplay() {
 void gasalertDisplay() {
     for (int row = 0; row < 16; row++) {
         for (int col = 0; col < 16; col++) {
-            switch (gasAlert[row][col]) {
+            switch (pgm_read_byte(&(gasAlert[row][col]))) {
             case 1: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(0, 128, 255)); break;
             case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(0, 255, 255)); break;
             case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(0, 204, 0)); break;
@@ -411,30 +404,7 @@ void gasalertDisplay() {
 void displayGlowstone() {
     for (int row = 0; row < 16; row++) {
         for (int col = 0; col < 16; col++) {
-            switch (glowstone[row][col]) {
-                case 1: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(251, 218, 115));
-                break; 
-                case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(204, 134, 83));
-                break;
-                case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(133, 79, 41));
-                break;
-                case 4: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(112, 69, 34));
-                break;
-                case 5: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 255, 255));
-                break;
-                case 6: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 240, 217));
-                break;
-                case 7: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(136, 104, 57));
-                break;
-                case 10: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(116, 78, 39));
-                break;
-                default: break;
-            }
-        }
-    }
-        for (int row = 16; row < 32; row++) {
-        for (int col = 0; col < 16; col++) {
-            switch (glowstone[row - 16][col]) {
+            switch (pgm_read_byte(&(glowstone[row][col]))) {
                 case 1: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(251, 218, 115));
                 break; 
                 case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(204, 134, 83));
@@ -469,7 +439,7 @@ int xyToIndex(int x, int y) {
 void switchError() {
     for (int row = 0; row < 7; row++) {
         for (int col = 0; col < 5; col++) {
-            if (letters[4][row] & (0x10 >> col)) {
+            if (pgm_read_byte(&(letters[4][row])) & (0x10 >> col)) {
                 int pixelIndex;
                 int y = row;
                 int x = col;
@@ -485,9 +455,9 @@ void switchError() {
     }
     for (int row = 0; row < 7; row++) {
         for (int col = 0; col < 5; col++) {
-            if (letters[17][row] & (0x10 >> col)) {
+            if (pgm_read_byte(&(letters[17][row])) & (0x10 >> col)) {
                 int pixelIndex;
-                int y = row + 14;
+                int y = row;
                 int x = col + 6;
                 if (y % 2 == 0) {
                     pixelIndex = y * 16 + (15 - x);
@@ -501,7 +471,7 @@ void switchError() {
     }
 }
 void allOn() {
-    panel1.fill((0, 255, 0), 20);
+    panel1.fill((0, 127, 0), 20);
     delay(1000);
 }
 
@@ -512,7 +482,25 @@ int readMQ2() {
 }
 
 void loop() {
-    displaySwitchMode(detectMode());
+    bool touchState = digitalRead(touchPin);
+
+    // Detect rising edge (touch event)
+    if (touchState == HIGH && lastTouchState == LOW && millis() >= time_now + period) {
+        currentMode++;
+        if (currentMode > numModes) currentMode = 1;
+
+        Serial.print("Mode changed to: ");
+        Serial.println(currentMode);
+
+        mode = currentMode;
+
+        time_now += period;
+
+        // delay(200); // Simple debounce
+    }
+    lastTouchState = touchState;
+
+    displaySwitchMode(mode);
     panel1.show();
     
     /* below is code for testing and monitoring*/
@@ -526,5 +514,5 @@ void loop() {
     Serial.println(readMQ2());
     //  not needed for actual project
 
-    delay(3000);
+    delay(500);
 }
