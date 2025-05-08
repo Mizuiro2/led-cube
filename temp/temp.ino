@@ -9,6 +9,7 @@
 #define DHT11PIN    4
 #define sensorPin   10
 #define touchPin    2
+
 #define numModes    4
 
 int buzzerPin = 8;
@@ -151,7 +152,7 @@ const uint8_t glowstone[32][16] = {
 
 
 int detectMode() {
-    int mode = 0;
+    int mode = 1;
     if (0) {
         mode = 1;
     }
@@ -521,8 +522,8 @@ void loop() {
     Serial.println((float)DHT11.humidity, 2);
     Serial.print("Temperature  (C): ");
     Serial.println((float)DHT11.temperature, 2);
-    //  Serial.print("Analog output: ");
-    //  Serial.println(readMQ2());
+    Serial.print("Analog output: ");
+    Serial.println(readMQ2());
     //  not needed for actual project
 
     delay(3000);
