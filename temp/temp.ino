@@ -220,8 +220,8 @@ void displaySwitchMode(int mode) {
         break;
 
         case 5:
-            numberLoopR();
             num = 0;
+            numberLoopR();
         break;
 
         case 6:
