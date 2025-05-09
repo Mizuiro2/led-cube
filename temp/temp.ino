@@ -13,7 +13,7 @@ int buzzerPin = 8;
 
 #define touchPin  2     // Pin connected to OUT of touch sensor
 int currentMode = 1;
-const int numModes = 8;
+const int numModes = 9;
 
 bool lastTouchState = LOW;
 
@@ -372,6 +372,12 @@ void displaySwitchMode(int mode) {
         break;
 
         case 7:
+            flameDisplay();
+        break;
+
+        case 8:
+            flameDisplay2();
+        break;
 
         default:
             switchError();
@@ -768,6 +774,7 @@ void numberLoopR() {
   }
 }
 
+//  regular flame display
 void flameDisplay() {
     if (millis() - time_now >= frameTime) {
         time_now = millis();  // update time
@@ -778,13 +785,42 @@ void flameDisplay() {
                     break; 
                     case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(223, 162, 27));
                     break;
-                    case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(177, 632, 0));
+                    case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(177, 63, 0));
                     break;
                     case 4: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(239, 205, 86));
                     break;
                     case 5: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(233, 189, 57));
                     break;
                     case 6: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(249, 235, 171));
+                    break;
+                    case 7: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 255, 255));
+                    break;
+                    default: break;
+                }
+            }
+        }
+        frame++;
+        if (frame >= 7) frame = 0;
+    }
+}
+//  soul flame display
+void flameDisplay2() {
+    if (millis() - time_now >= frameTime) {
+        time_now = millis();  // update time
+        for (int row = 0; row < 16; row++) {
+            for (int col = 0; col < 16; col++) {
+                switch (pgm_read_byte(&(flame[frame][row][col]))) {
+                    case 1: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(36, 197, 204));
+                    break; 
+                    case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(91, 226, 231));
+                    break;
+                    case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(18, 166, 171));
+                    break;
+                    case 4: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(123, 241, 244));
+                    break;
+                    case 5: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(116, 254, 255));
+                    break;
+                    case 6: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(211, 253, 255));
                     break;
                     case 7: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(255, 255, 255));
                     break;
