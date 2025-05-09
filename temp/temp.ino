@@ -396,6 +396,7 @@ void setup() {
 
 }
 
+//  put number compact
 void numberPut(int startX, int startY, int num, uint32_t color) {
     int tens = num / 10;
     int ones = num % 10;
@@ -453,6 +454,7 @@ void numberPut(int startX, int startY, int num, uint32_t color) {
     }
 }
 
+//  put number in center with more distance in between
 void numberPut2(int startX, int startY, int num, uint32_t color) {
     int tens = num / 10;
     int ones = num % 10;
