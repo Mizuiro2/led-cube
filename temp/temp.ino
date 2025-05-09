@@ -13,7 +13,7 @@ int buzzerPin = 8;
 
 #define touchPin  2     // Pin connected to OUT of touch sensor
 int currentMode = 1;
-const int numModes = 6;
+const int numModes = 7;
 
 bool lastTouchState = LOW;
 
@@ -146,28 +146,24 @@ const uint8_t glowstone[16][16] PROGMEM = {
     {7, 4, 1, 2, 3, 10, 6, 1, 3, 10, 10, 4, 4, 4, 10, 7}
 };
 
-// const uint8_t grass[16][16] PROGMEM = {
-//     {1, 1, 2, 1, 2, 2, };
-//     {};
-//     {};
-//     {};
-//     {};
-//     {};
-//     {};
-//     {};
-//     {};
-//     {};
-//     {};
-//     {};
-//     {};
-//     {};
-//     {};
-//     {};
-//     {};
-//     {};
-//     {};
-//     {}
-// };
+const uint8_t grass[16][16] PROGMEM = {
+    { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
+    { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 5, 2, 2, 2, 2, 2 },
+    { 2, 2, 5, 2, 2, 5, 2, 2, 2, 5, 5, 2, 2, 2, 2, 2 },
+    { 2, 2, 5, 2, 2, 5, 5, 2, 5, 5, 3, 5, 5, 5, 5, 2 },
+    { 2, 5, 1, 5, 5, 3, 3, 5, 3, 3, 3, 1, 5, 3, 1, 5 },
+    { 2, 3, 3, 1, 5, 1, 3, 3, 1, 5, 1, 1, 3, 1, 1, 5 },
+    { 3, 3, 5, 3, 1, 1, 3, 3, 3, 3, 5, 5, 1, 1, 5, 1 },
+    { 1, 5, 3, 3, 3, 1, 5, 3, 5, 4, 3, 3, 1, 3, 3, 3 },
+    { 1, 3, 1, 3, 3, 3, 1, 3, 1, 1, 1, 3, 5, 1, 3, 5 },
+    { 5, 3, 3, 5, 3, 3, 3, 5, 3, 3, 3, 3, 5, 5, 1, 1 },
+    { 3, 3, 4, 1, 5, 5, 3, 1, 5, 3, 3, 3, 3, 5, 3, 5 },
+    { 1, 3, 3, 1, 3, 3, 3, 1, 3, 1, 1, 1, 1, 1, 5, 3 },
+    { 1, 3, 3, 1, 3, 1, 1, 1, 3, 3, 1, 1, 5, 1, 1, 1 },
+    { 3, 3, 3, 1, 3, 3, 3, 5, 1, 3, 5, 5, 5, 3, 3, 3 },
+    { 1, 5, 3, 3, 3, 1, 5, 3, 1, 3, 1, 5, 3, 3, 5, 3 },
+    { 3, 5, 3, 3, 3, 3, 3, 3, 3, 3, 4, 5, 5, 1, 3, 3 }
+};
 
 
 // int detectMode() {
@@ -222,14 +218,19 @@ void displaySwitchMode(int mode) {
         case 4:
             numberLoop();
         break;
+
         case 5:
             numberLoopR();
             num = 0;
         break;
+
+        case 6:
+            numR = 99;
+            displayGrass();
+        break;
+
         default:
-        switchError();
-        numR = 99;
-        
+            switchError();
     }
 
     panel1.show();
@@ -538,6 +539,25 @@ void displayGlowstone() {
     }
 }
 
+void displayGrass() {
+    for (int row = 0; row < 16; row++) {
+        for (int col = 0; col < 16; col++) {
+            switch (pgm_read_byte(&(grass[row][col]))) {
+                case 1: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(207, 154, 110));
+                break; 
+                case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(204, 134, 83));
+                break;
+                case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(114, 162, 73));
+                break;
+                case 4: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(155, 113, 84));
+                break;
+                case 5: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(108, 78, 58));
+                break;
+                default: break;
+            }
+        }
+    }
+}
 
 int xyToIndex(int x, int y) {
   if (y % 2 == 1) {
@@ -626,8 +646,8 @@ void loop() {
         currentMode++;
         if (currentMode > numModes) currentMode = 1;
 
-        Serial.print("Mode changed to: ");
-        Serial.println(currentMode);
+        // Serial.print("Mode changed to: ");
+        // Serial.println(currentMode);
 
         mode = currentMode;
 
