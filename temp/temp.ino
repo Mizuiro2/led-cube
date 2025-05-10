@@ -695,15 +695,15 @@ void displayGrass() {
     for (int row = 0; row < 16; row++) {
         for (int col = 0; col < 16; col++) {
             switch (pgm_read_byte(&(grass[row][col]))) {
-                case 1: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(207, 154, 110));
+                case 1: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(200, 80, 40));
                 break; 
-                case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(204, 134, 83));
+                case 2: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(0, 255, 30));
                 break;
-                case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(114, 162, 73));
+                case 3: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(205, 65, 40));
                 break;
-                case 4: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(155, 113, 84));
+                case 4: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(50, 50, 50));
                 break;
-                case 5: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(108, 78, 58));
+                case 5: panel1.setPixelColor(xyToIndex(col, row), panel1.Color(200, 80, 40));
                 break;
                 default: break;
             }
