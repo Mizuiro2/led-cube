@@ -770,7 +770,7 @@ void numberLoop() {
 void numberLoopR() {
     if (millis() - time_now >= refreshPeriod) {
         time_now = millis();  // update time
-        numberPut2(2, 4, numR, panel1.Color(255, 0, 0));
+        numberPut2(2, 4, numR, panel1.Color(0, 0, 255));
         numR--;
     if (numR <= 0) numR = 99;
   }
